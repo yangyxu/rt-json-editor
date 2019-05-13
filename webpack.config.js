@@ -31,8 +31,8 @@ module.exports = {
         //chunkFilename: '[name].js',
         filename: '[name].bundle.js',
         //library: "friendly",
-        //libraryTarget: "this"
-        libraryExport: "default"
+        libraryTarget: "this"
+        //libraryExport: "default"
     },
     externals: {
         "react": "React",
