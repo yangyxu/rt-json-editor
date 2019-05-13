@@ -1,0 +1,64 @@
+.rt-json-editor-object-add-item{
+    background-color: #f9f4f4;
+    border-radius: 3px;
+    padding: 10px;
+    margin: 10px 0px;
+    font-family: monospace;
+    .form-item{
+        display: flex;
+        align-items: center;
+        margin: 10px 0px;
+        .label{
+            width: 80px;
+            display: inline-block;
+        }
+
+        .react-codemirror2{
+            width: 100%;
+        }
+
+        select, input{
+            width: 100%;
+            background-color: #FFF;
+            outline: none;
+            padding: 2px 5px;
+            font-size: 14px;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            height: 30px;
+            &:hover{
+                background-color: #e4dfdf;
+            }
+            &:focus{
+                border-color:#eaeaea;
+            }
+        }
+    }
+    .form-btns{
+        display: flex;
+        justify-content: flex-end;
+        .form-btn{
+            color: #FFF;
+            border-radius: 3px;
+            padding: 3px 6px;
+            margin: 3px 6px;
+            margin-right: 0px;
+            cursor: pointer;
+            font-size: 12px;
+            .fa{
+                font-size: 10px;
+                padding: 3px;
+            }
+            &:hover {
+                opacity: 0.7;
+            }
+
+            &.submit{
+                background-color: #41a9f8;
+            }
+            &.cancel{
+                background-color: #fa4a5c;
+            }
+        }
+    }
+}

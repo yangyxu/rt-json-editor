@@ -1,0 +1,72 @@
+.rt-json-editor-field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    font-family: monospace;
+    &>.field-warp>.meta-data>.rt-json-editor-item-toolbar{
+        display: none;
+    }
+
+    &:hover{
+        &>.field-warp>.meta-data>.rt-json-editor-item-toolbar{
+            display: inline-block;
+        }
+    }
+
+    &.required{
+        &>.field-warp>.meta-data>.field-key{
+            background-color: #fff1f1;
+            &::after{
+                content: '*';
+                color: #900606;
+                padding: 0px 5px;
+            }
+        }
+    }
+    
+
+    
+
+    .editing-mode{
+        width: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        input, select{
+            width: 100%;
+            background-color: #f3f3f3;
+            outline: none;
+            padding: 2px 5px;
+            height: 22px;
+            font-size: 14px;
+            border-radius: 2px;
+            border: 1px solid transparent;
+            &:hover{
+                background-color: #e4dfdf;
+            }
+            &:focus{
+                border-color:#eaeaea;
+            }
+        }
+
+        .editing-btns{
+            display: flex;
+            text-align: center;
+            background-color: #f1e9e9;
+            border-radius: 2px;
+            margin: 0px 5px;
+            font-size: 12px;
+            .icon-btn {
+                padding: 3px;
+                margin: 3px;
+                cursor: pointer;
+                &:hover{
+                    color: coral;
+                }
+            }
+        }
+    }
+    
+}

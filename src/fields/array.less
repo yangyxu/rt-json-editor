@@ -1,0 +1,27 @@
+.rt-json-editor-field-array {
+
+    &.fold{
+        &>.object-warp>.array-values{
+            display: none;
+        }
+    }
+    &.unfold{
+        &>.object-warp>.array-values{
+            display: block;
+            padding: 0px 0px;
+            padding-left: 20px;
+            margin-left: 6px;
+            border-left: 1px solid #ccced0;
+        }
+    }
+
+    .array-values{
+        .array-value-item{
+            display: flex;
+            align-items: center;
+            .separator{
+                padding-right: 2px;
+            }
+        }
+    }
+}

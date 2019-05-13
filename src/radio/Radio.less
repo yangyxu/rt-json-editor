@@ -1,0 +1,29 @@
+.rt-json-editor-radio{
+    display: flex;
+    flex-wrap: wrap;
+    
+    .radio-item{
+        border-radius: 3px;
+        background-color: #e8e2e2;
+        margin: 3px;
+        padding: 3px;
+        display: flex;
+        align-items: center;
+        color: #8a8484;
+        .item-tag{
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin: 5px;
+            background-color: #8a8484;
+        }
+
+        &.actived {
+            background-color: #cccccc;
+            color: #049fd9;
+            .item-tag{
+                background-color: #049fd9;
+            }
+        }
+    }
+}

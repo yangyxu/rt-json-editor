@@ -1,0 +1,75 @@
+.rt-json-editor-field-object {
+    &.fold{
+        &>.object-warp>.object-key-value-pair{
+            display: none;
+        }
+    }
+    &.unfold{
+        &>.object-warp>.object-key-value-pair{
+            display: block;
+            padding: 0px 0px;
+            padding-left: 20px;
+            margin-left: 5px;
+            border-left: 1px solid #ccced0;
+        }
+    }
+    
+    .object-warp{
+        width: 100%;
+        .meta-data{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            min-height: 28px;
+            .fold-icon {
+                display: inline-block;
+                text-align: center;
+                vertical-align: middle;
+                width: 12px;
+                margin-right: 2px;
+            }
+            ._key{
+                display: inline-block;
+                .key-input{
+                    padding: 0px 5px;
+                    border: 1px solid #e6e1e1;
+                    border-radius: 2px;
+                    outline: none;
+                    line-height: 22px;
+                    color: rgb(136, 19, 145);
+                    font-family: monospace;
+                    &:focus{
+                        border-color: #007bff;
+                    }
+                }
+                ._key-name{
+                    color: #881391;
+                }
+                ._key-colon{
+                    color: #222;
+                    padding: 0px 4px;
+                }
+            }
+            .label{
+                background-color: #efefef;
+                border-radius: 2px;
+                line-height: 13px;
+                font-size: 12px;
+                padding: 2px;
+            }
+            .item-count{
+                color: rgb(149, 150, 151);
+                border-radius: 3px;
+                font-style: italic;
+                margin: 0px 4px;
+                cursor: default;
+            }
+        }
+        .closure-end {
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            width: 12px;
+        }
+    }
+}

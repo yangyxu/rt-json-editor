@@ -1,0 +1,72 @@
+.json-editor {
+    font-family: CiscoSans,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+    .editor-warp{
+        border: 1px solid #eae9e9;
+        margin: 15px;
+        border-radius: 3px;
+        box-shadow: 0 2px 7px 1px rgba(0,0,0,.1);
+        .editor-header{
+            background-color: #FFF;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eae9e9;
+            .title{
+                padding: 0px 8px;
+                font-weight: 400;
+            }
+            .tool-bar{
+                list-style: none;
+                &.btns{
+                    display: flex;
+                    flex-direction: row;
+                    align-content: center;
+                    .btn{
+                        background: #2196F3;
+                        color: #FFF;
+                        height: 30px;
+                        line-height: 30px;
+                        margin: 5px;
+                        padding: 0px 6px;
+                        border-radius: 3px;
+                        cursor: pointer;
+                        &:hover{
+                            opacity: 0.7;
+                        }
+                    }
+                }
+            }
+        }
+        .editor-body{
+            .tips{
+                min-height: 80px;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                .note{
+                    background-color: #f1eeec;
+                    font-size: 14px;
+                    font-weight: 500;
+                    border-radius: 2px;
+                    padding: 5px 30px;
+                }
+            }
+        }
+
+        .kinds{
+            margin: 0px;
+            padding: 0px;
+            .kind-warp{
+                background: #FFF;
+                border: 1px solid #f1f1f1;
+                margin: 8px;
+                padding: 4px;
+                margin-top: 24px;
+                list-style: none;
+            }
+        }
+    }
+}

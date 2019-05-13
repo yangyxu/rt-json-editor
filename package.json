@@ -1,0 +1,59 @@
+{
+  "name": "rt-json-editor",
+  "version": "0.1.0",
+  "description": "Plain JSON Editor",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf www/dist",
+    "build": "npm run clean && babel src -d build",
+    "dist": "npm run clean && webpack --uglify",
+    "release": "npm run clean && npm run build && npm run dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yangyxu/rt-json-editor.git"
+  },
+  "keywords": [
+    "web component",
+    "component",
+    "javascript",
+    "json",
+    "react",
+    "react-json-editor",
+    "editor",
+    "json-editor",
+    "json-view"
+  ],
+  "author": "yangyxu",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "babel-plugin-transform-remove-strict-mode": "0.0.2",
+    "create-react-class": "^15.6.3",
+    "css-loader": "^2.1.0",
+    "cssnano": "^4.1.10",
+    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "raw-loader": "^1.0.0",
+    "react": "^16.8.3",
+    "react-dom": "^16.8.3",
+    "rimraf": "^2.6.3",
+    "scss": "^0.2.4",
+    "scss-loader": "0.0.1",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.1.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  },
+  "devDependencies": {
+    "codemirror": "^5.46.0",
+    "react-codemirror2": "^6.0.0"
+  }
+}
