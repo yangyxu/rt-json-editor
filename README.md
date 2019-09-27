@@ -8,7 +8,7 @@ A draggable toggle-switch component for React.
 
 ## Demo
 
-[Take a look at the demo](https://github.com/yangyxu/rt-json-editor)
+[Take a look at the demo](https://yangyxu.github.io/rt-json-editor/www/index.html)
 
 ## Installation
 
