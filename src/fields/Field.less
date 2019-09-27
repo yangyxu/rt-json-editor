@@ -5,18 +5,20 @@
     justify-content: flex-start;
     align-items: stretch;
     font-family: monospace;
-    &>.field-warp>.meta-data>.rt-json-editor-item-toolbar{
-        display: none;
-    }
 
-    &:hover{
-        &>.field-warp>.meta-data>.rt-json-editor-item-toolbar{
-            display: inline-block;
+    &>.field-warp>.meta-data{
+        &>.rt-json-editor-item-toolbar{
+            display: none;
+        }
+        &:hover {
+            &>.rt-json-editor-item-toolbar{
+                display: inline-block;
+            }
         }
     }
 
     &.required{
-        &>.field-warp>.meta-data>.field-key{
+        &>.field-warp>.meta-data .field-key{
             background-color: #fff1f1;
             &::after{
                 content: '*';
@@ -25,9 +27,6 @@
             }
         }
     }
-    
-
-    
 
     .editing-mode{
         width: 100%;

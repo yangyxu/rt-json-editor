@@ -1,12 +1,13 @@
 {
   "name": "rt-json-editor",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Plain JSON Editor",
   "main": "index.js",
   "scripts": {
     "clean": "rimraf www/dist",
     "build": "npm run clean && babel src -d build",
     "dist": "npm run clean && webpack --uglify",
+    "development": "npm run clean && webpack --watch",
     "release": "npm run clean && npm run build && npm run dist"
   },
   "repository": {

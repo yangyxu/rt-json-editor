@@ -1,16 +1,30 @@
 .rt-json-editor-field-object {
     &.fold{
-        &>.object-warp>.object-key-value-pair{
-            display: none;
+        &>.object-warp{
+            &>.object-key-value-pair{
+                display: none;
+            }
+            &>.meta-data{
+                display: inline;
+            }
+            &>.closure-end{
+                position: relative;
+                top: -3px;
+            }
         }
     }
     &.unfold{
-        &>.object-warp>.object-key-value-pair{
-            display: block;
-            padding: 0px 0px;
-            padding-left: 20px;
-            margin-left: 5px;
-            border-left: 1px solid #ccced0;
+        &>.object-warp{
+            &>.object-key-value-pair{
+                display: block;
+                padding: 0px 0px;
+                padding-left: 20px;
+                margin-left: 5px;
+                border-left: 1px solid #ccced0;
+            }
+            &>.meta-data{
+                display: flex;
+            }
         }
     }
     
@@ -21,12 +35,14 @@
             display: flex;
             align-items: center;
             min-height: 28px;
+            line-height: 28px;
             .fold-icon {
                 display: inline-block;
                 text-align: center;
                 vertical-align: middle;
                 width: 12px;
                 margin-right: 2px;
+                cursor: pointer;
             }
             ._key{
                 display: inline-block;

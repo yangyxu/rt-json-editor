@@ -10,6 +10,7 @@ var _object = React.createClass({
 			value: null,
 			fold: true,
 			parent: null,
+			editable: true,
 			displayClosure: true,
 			displayItemCount: true
 		};
@@ -164,7 +165,9 @@ var _object = React.createClass({
 						{
 							this.props.displayItemCount && <span className="item-count">{"Object{" + Object.keys(this.state.value).length + "}"}</span>
 						}
-						<ItemToolBar items={_btns} />
+						{
+							this.props.editable && <ItemToolBar items={_btns} />
+						}
 					</div>
 					<div className="object-key-value-pair">
 						{

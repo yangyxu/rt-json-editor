@@ -1,13 +1,16 @@
 module.exports = {
     array: {
+        label: 'Array',
         type: 'array',
         value: ['1', '2', '3'],
+        title: 'array',
         required: true
     },
     kind: {
         value: 'Deployment'
     },
     metadata: {
+        editable: false,
         type: 'object',
         schema: {
             name: { type: 'string', required: true },

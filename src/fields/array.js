@@ -88,8 +88,9 @@ var _array = React.createClass({
 		if(this.props.parent) {
 			_btns.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
+		console.log(this.props)
 		return (
-			<div className={"rt-json-editor-field rt-json-editor-field-object rt-json-editor-field-array " + (this.state.fold?'fold':'unfold')}>
+			<div className={"rt-json-editor-field rt-json-editor-field-object rt-json-editor-field-array " + (this.state.fold?' fold':' unfold') + (this.props.required?' required':'')}>
 				{
 					this.state.adding && <ObjectAddItem _key={null} onSubmit={this.__onCreateSubmit} onCancel={this.__onCreateCancel} />
 				}
@@ -101,7 +102,7 @@ var _array = React.createClass({
 						{
 							this.state._key && <div className="_key">
 								{
-									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span className="_key-name">{this.state._key}</span>
+									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span className="field-key _key-name">{this.props.label || this.state._key}</span>
 								}
 								<span className="_key-colon">:</span>
 							</div>

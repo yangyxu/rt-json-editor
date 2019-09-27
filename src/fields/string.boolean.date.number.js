@@ -73,7 +73,7 @@ module.exports = React.createClass({
 	__renderEditableKey: function (){
 		if(this.state._key){
 			return !!this.props.required ? <span className="field-key">
-				{this.state._key}
+				{this.props.label || this.state._key}
 			</span> : <input ref={(dom)=>this._keydom = dom} className="input" defaultValue={this.state._key} name="_key" type="text" />;
 		}
 	},
