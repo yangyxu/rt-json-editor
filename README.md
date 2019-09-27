@@ -3,15 +3,12 @@ A draggable toggle-switch component for React.
 [![npm](https://img.shields.io/npm/v/rt-json-editor.svg)](https://www.npmjs.com/package/rt-json-editor)
 [![npm](https://img.shields.io/npm/dm/rt-json-editor.svg)](https://www.npmjs.com/package/rt-json-editor)
 
-<img src="https://media.giphy.com/media/l0IsI0EHlJx2kyCrK/giphy.gif" />
-<img src="https://media.giphy.com/media/3ov9k7TupiaveDlQ5O/giphy.gif" />
-
 - **Draggable** with the mouse or with a touch screen.
 - **Customizable** 
 
 ## Demo
 
-[Take a look at the demo](https://react-switch.netlify.com/)
+[Take a look at the demo](https://github.com/yangyxu/rt-json-editor)
 
 ## Installation
 
@@ -108,6 +105,12 @@ module.exports = {
 };
 
 ```
+
+<img src="https://github.com/yangyxu/rt-json-editor/blob/master/images/demo.png" />
+
+<img src="https://github.com/yangyxu/rt-json-editor/blob/master/images/demo-add.png" />
+
+<img src="https://github.com/yangyxu/rt-json-editor/blob/master/images/demo-changed.png" />
 
 
 
