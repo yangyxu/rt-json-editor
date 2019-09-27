@@ -8,7 +8,7 @@ module.exports = React.createClass({
 		};
 	},
 	__onChange: function (data, changedItem, root){
-		console.log(root.state.value);
+		console.log('Changed: ', root.state.value);
 	},
 	render: function(){
 		var _schema = this.state.schema,

@@ -88,7 +88,7 @@ var _array = React.createClass({
 		if(this.props.parent) {
 			_btns.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
-		console.log(this.props)
+		
 		return (
 			<div className={"rt-json-editor-field rt-json-editor-field-object rt-json-editor-field-array " + (this.state.fold?' fold':' unfold') + (this.props.required?' required':'')}>
 				{

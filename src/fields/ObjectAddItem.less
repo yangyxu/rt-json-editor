@@ -26,12 +26,18 @@
             font-size: 14px;
             border-radius: 2px;
             border: 1px solid transparent;
-            height: 30px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            height: 24px;
+            line-height: 24px;
             &:hover{
-                background-color: #e4dfdf !important;
+                border-color:#40a9ff;
             }
             &:focus{
-                border-color:#eaeaea;
+                border-color:#40a9ff;
+                border-right-width:1px !important;
+                outline:0;
+                -webkit-box-shadow:0 0 0 2px rgba(24,144,255,0.2);box-shadow:0 0 0 2px rgba(24,144,255,0.2);
             }
         }
     }
