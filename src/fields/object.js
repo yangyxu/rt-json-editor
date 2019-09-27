@@ -160,7 +160,7 @@ var _object = React.createClass({
 							this.props.displayClosure && <span className="closure-start">{'{'}</span>
 						}
 						{
-							!!this.state.fold && <span className="dots">...</span>
+							!!this.state.fold && <span className="dots" onClick={()=>this.setState({ fold: !this.state.fold })}>...</span>
 						}
 						{
 							this.props.displayItemCount && <span className="item-count">{"Object{" + Object.keys(this.state.value).length + "}"}</span>
