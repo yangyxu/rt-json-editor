@@ -77,6 +77,7 @@ var _object = React.createClass({
 		}
 	},
 	__onCreateSubmit: function (data){
+		data.updated = true;
 		this.state.value[data._key] = data.value;
 		this.state.schema[data._key] = data;
 		this.state.adding = false;
@@ -87,7 +88,7 @@ var _object = React.createClass({
 		this.setState({ adding: false });
 	},
 	__onRemove: function (){
-		this.props.onRemove && this.props.onRemove(this.props._key);
+		this.props.onRemove && this.props.onRemove(this.props._key, this);
 	},
 	__onChildValueInitial: function (key, value, child){
 		if(key && this.state.value.hasOwnProperty(key)) {
@@ -106,12 +107,18 @@ var _object = React.createClass({
 	},
 	__onChildChange: function (data, child){
 		if(this == child.props.parent){
-			if(data.key && data.prevKey && data.key != data.prevKey){
-				this.state.value[data.prevKey] = null;
-				delete this.state.value[data.prevKey];
+			if(data.key && data.prevKey){
+				if(data.key != data.prevKey){
+					this.state.value[data.prevKey] = null;
+					delete this.state.value[data.prevKey];
+				}
+				
 			}
-			this.state.value[data.key||data.prevKey] = data.value;
+			if(data.key||data.prevKey){
+				this.state.value[data.key||data.prevKey] = data.value;
+			}
 		}
+
 		this.props.onChange && this.props.onChange(data, child, this);
 	},
 	__onKeyInputBlur: function (event){

@@ -7,8 +7,9 @@ module.exports = React.createClass({
 			schema: this.props.schema
 		};
 	},
-	__onChange: function (data, changedItem, root){
-		console.log('Changed: ', root.state.value);
+	__onChange: function (data, child, root){
+		var _root = root || child;
+		console.log('Changed: ', _root.state.value);
 	},
 	render: function(){
 		var _schema = this.state.schema,
