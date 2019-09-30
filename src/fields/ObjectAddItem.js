@@ -25,7 +25,7 @@ module.exports = React.createClass({
 	getInitialState: function () {
 		return {
 			_key: this.props._key,
-			type: 'string',
+			type: this.props.type || 'string',
 			value: this.props.value
 		};
 	},
@@ -109,7 +109,7 @@ module.exports = React.createClass({
 				}
 				<div className="form-item">
 					<span className="label">Type:</span>
-					<select required defaultValue={this.state.value||"string"} className="rt-json-editor-data-type-select" onChange={this.__onSelectChange}>
+					<select disabled={!!this.props.type} required defaultValue={this.state.value||"string"} className="rt-json-editor-data-type-select" onChange={this.__onSelectChange}>
 						{
 							[
 								'string', 'number', 'boolean', 'date', 'object', 'array', 'function'

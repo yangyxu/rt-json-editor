@@ -22,6 +22,49 @@ var _array = React.createClass({
 			editing: false
 		};
 	},
+	componentDidMount: function (){
+		return;
+		var _initial = null;
+		if(this.props.initial === true && this.props.schema){
+			_initial = this.getValueFromSchema(this.props.schema);
+		}
+		if(_initial){
+			this.state.value.push(_initial);
+			this.forceUpdate();
+		}
+	},
+	getValueFromSchema: function (schema){
+		var _type = Object.prototype.toString.call(schema).toLowerCase().split(' ')[1].replace(']', ''),
+			_value = null;
+		if(_type=='array'){
+			_value = [];
+			schema.forEach(function (temp, index){
+				/*
+				if(temp.schema){
+					_value.push(this.getValueFromSchema(temp.schema));
+				}else{
+					_value.push(temp.value||null);
+				}*/
+
+				_value.push(temp.value||null);
+			}.bind(this));
+		}else if(_type=='object'){
+			_value = {};
+			for(var key in schema){
+				var _temp = schema[key];
+				/*
+				if(_temp.schema){
+					_value[key] = this.getValueFromSchema(_temp.schema);
+				}else{
+					_value[key] = _temp.value || null;
+				}*/
+
+				_value[key] = _temp.value || null;
+			}
+		}
+		console.log(_value, schema);
+		return {};
+	},
 	__onChildValueInitial: function (key, value, child, index){
 		
 	},
@@ -69,6 +112,18 @@ var _array = React.createClass({
 			value: this.state.value
 		}, this, this);
 	},
+	__renderEditor: function (){
+		return <ObjectAddItem type={this.props.dataType} _key={null} onSubmit={this.__onCreateSubmit} onCancel={this.__onCreateCancel} />;
+	},
+	__onAdd: function (){
+		if(this.props.schema){
+			//todo : not finished.
+			this.state.value.push({});
+			this.forceUpdate();
+		}else{
+			this.setState({ adding: true });
+		}
+	},
 	render: function(){
 		var FIELDS = {
 			array: _array,
@@ -80,7 +135,7 @@ var _array = React.createClass({
 			number: require('./string.boolean.date.number.js')
 		}
 		var _btns = [
-			{ icon: 'fa-plus', onClick: ()=>this.setState({ adding: true }) }
+			{ icon: 'fa-plus', onClick: this.__onAdd }
 		];
 		if(this.props._key){
 			_btns.unshift({ icon: 'fa-edit', onClick: ()=>this.setState({ editing: true }) });
@@ -88,11 +143,11 @@ var _array = React.createClass({
 		if(this.props.parent) {
 			_btns.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
-		
+		//console.log(this.state.value);
 		return (
 			<div className={"rt-json-editor-field rt-json-editor-field-object rt-json-editor-field-array " + (this.state.fold?' fold':' unfold') + (this.props.required?' required':'')}>
 				{
-					this.state.adding && <ObjectAddItem _key={null} onSubmit={this.__onCreateSubmit} onCancel={this.__onCreateCancel} />
+					this.state.adding && this.__renderEditor()
 				}
 				<div className="field-warp object-warp">
 					<div className="meta-data">
@@ -102,7 +157,7 @@ var _array = React.createClass({
 						{
 							this.state._key && <div className="_key">
 								{
-									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span className="field-key _key-name">{this.props.label || this.state._key}</span>
+									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="field-key _key-name">{this.props.label || this.state._key}</span>
 								}
 								<span className="_key-colon">:</span>
 							</div>
@@ -129,6 +184,7 @@ var _array = React.createClass({
 										value={item}
 										parent={this}
 										fold={this.props.fold}
+										schema={this.props.schema}
 										displayClosure={this.props.displayClosure}
 										displayItemCount={this.props.displayItemCount}
 										onValueInitial={(key, value, child)=>this.__onChildValueInitial(key, value, child, index)}

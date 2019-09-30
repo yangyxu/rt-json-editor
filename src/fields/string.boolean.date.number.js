@@ -106,7 +106,7 @@ module.exports = React.createClass({
 					</div> : <div className={"field-warp " + (this.props.type + "-warp")}>
 						<div className="meta-data">
 							{
-								this.state._key && <span className="field-key">{this.state._key}</span>
+								this.state._key && <span title={this.props.title} className="field-key">{this.state._key}</span>
 							}
 							{
 								this.state._key && <span className="field-colon">:</span>

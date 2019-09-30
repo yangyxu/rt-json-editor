@@ -155,7 +155,7 @@ var _object = React.createClass({
 						{
 							this.state._key && <div className="_key">
 								{
-									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span className="_key-name">{this.state._key}</span>
+									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="_key-name">{this.state._key}</span>
 								}
 								<span className="_key-colon">:</span>
 							</div>

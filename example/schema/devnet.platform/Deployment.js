@@ -3,11 +3,18 @@ module.exports = {
         label: 'Array',
         type: 'array',
         value: ['1', '2', '3'],
+        dataType: 'string',
         title: 'array',
         required: true
     },
-    kind: {
-        value: 'Deployment'
+    kinds: {
+        type: 'array',
+        value: [
+            {age: 10}
+        ],
+        schema: {
+            name: {type:'string'}
+        }
     },
     metadata: {
         editable: false,
