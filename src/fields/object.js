@@ -7,10 +7,10 @@ var _object = React.createClass({
 	getDefaultProps: function () {
 		return {
 			_key: null,
-			value: null,
 			fold: true,
 			parent: null,
 			editable: true,
+			keyEditable: false,
 			displayClosure: true,
 			displayItemCount: true
 		};
@@ -44,15 +44,16 @@ var _object = React.createClass({
 		}
 	},
 	__joinValueAndSchema: function (value, schema){
-		if(value == undefined){
-			value = {};
-			this.props.onValueInitial && this.props.onValueInitial(this.props._key, value, this);
+		//var _values = Object.assign({}, value);
+		var _values = value;
+		if(_values == undefined){
+			_values = {};
+			this.props.onValueInitial && this.props.onValueInitial(this.props._key, _values, this);
 		}
 		var _schema = Object.assign({}, schema),
-			_value = null,
-			_values = value;
-		for(var key in value){
-			_value = value[key];
+			_value = null;
+		for(var key in _values){
+			_value = _values[key];
 			if(_schema[key]){
 				_schema[key].value = _value || _schema[key].value;
 			}else{
@@ -64,7 +65,6 @@ var _object = React.createClass({
 		}
 		for(var key in _schema) {
 			if(_schema[key]){
-				//console.log(this.__getSchemaInitialValue(_schema[key]));
 				_values[key] = this.__getSchemaInitialValue(_schema[key]);
 			}else{
 				//console.log(schema, _schema);
@@ -112,10 +112,14 @@ var _object = React.createClass({
 					this.state.value[data.prevKey] = null;
 					delete this.state.value[data.prevKey];
 				}
-				
 			}
 			if(data.key||data.prevKey){
 				this.state.value[data.key||data.prevKey] = data.value;
+			}
+			if(child.props.type == 'array'){
+				if(!this.state.value[child.props._key]){
+					this.state.value[child.props._key] = child.state.value;
+				}
 			}
 		}
 
@@ -134,20 +138,36 @@ var _object = React.createClass({
 			value: this.state.value
 		}, this, this);
 	},
+	__renderDesc: function (){
+		if(this.props.desc){
+			return <div className="field-desc">{this.props.desc}</div>;
+		}
+	},
+	__onKeyInputKeyUp: function (event){
+		if(event.keyCode==13){
+			this.__onKeyInputBlur(event);
+		}
+	},
 	render:function(){
-		var _btns = [
-			{ icon: 'fa-plus', onClick: ()=>this.setState({ adding: true, fold: false }) }
-		];
-		if(this.props._key){
+		var _btns = [];
+		if(this.props.editable !== false) {
+			_btns.push({ icon: 'fa-plus', onClick: ()=>this.setState({ adding: true, fold: false }) });
+		}
+
+		if(this.props._key && this.props.keyEditable){
 			_btns.unshift({ icon: 'fa-edit', onClick: ()=>this.setState({ editing: true }) });
 		}
-		if(this.props.parent) {
+
+		if(this.props.parent && this.props.removal) {
 			_btns.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
+
 		return (
 			<div className={"rt-json-editor-field rt-json-editor-field-object " + (this.state.fold?'fold':'unfold')}>
 				{
-					this.state.adding && <ObjectAddItem onSubmit={this.__onCreateSubmit} onCancel={this.__onCreateCancel} />
+					this.state.adding && <div className="adding-form-container">
+						<ObjectAddItem onSubmit={this.__onCreateSubmit} onCancel={this.__onCreateCancel} />
+					</div>
 				}
 				<div className="field-warp object-warp">
 					<div className="meta-data">
@@ -155,7 +175,7 @@ var _object = React.createClass({
 						{
 							this.state._key && <div className="_key">
 								{
-									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="_key-name">{this.state._key}</span>
+									(this.state.editing && this.props.keyEditable) ? <input onKeyUp={this.__onKeyInputKeyUp} onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="_key-name">{this.state._key}</span>
 								}
 								<span className="_key-colon">:</span>
 							</div>
@@ -176,17 +196,18 @@ var _object = React.createClass({
 							this.props.editable && <ItemToolBar items={_btns} />
 						}
 					</div>
+					{this.__renderDesc()}
 					<div className="object-key-value-pair">
 						{
 							Object.keys(this.state.schema).map(function (key, index){
 								var _item = this.state.schema[key],
 									_Type = FIELDS[_item.type];
-
 								if(_Type) {
 									return <_Type {..._item}
 												key={index}
 												_key={key}
 												parent={this}
+												value={this.state.value[key]}
 												fold={this.props.fold}
 												displayClosure={this.props.displayClosure}
 												displayItemCount={this.props.displayItemCount}

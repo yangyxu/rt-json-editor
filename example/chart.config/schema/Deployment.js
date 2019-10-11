@@ -1,60 +1,82 @@
 module.exports = {
-    "name": "",
-    "namespace": "",
-    "replicas": 0,
-    "containers": [
-        {
-            "name": "",
-            "image": "",
-            "command": [],
-            "args": [],
-            "workingDir": "",
-	        "ports": [
-                {
-                    "name": "",
-                    "hostPort": 0,
-                    "containerPort": 0,
-                    "protocol": "",
-                    "hostIP": ""
-                }
-            ],
-            "env": [
-                {
-                    "name": "",
-                    "value": ""
-                }
-            ],
-            "resources": {
-                "limits": {
-
-                },
-                "requests": {
-
+    "name": {
+        type: 'string',
+        keyEditable: false
+    },
+    "namespace": {
+        type: 'string',
+        keyEditable: false
+    },
+    "replicas": {
+        type: 'number',
+        keyEditable: false
+    },
+    "containers": {
+        type: 'array',
+        schema: {
+            "name": { type: 'string' },
+            "image": { type: 'string' },
+            "command": { type: 'array' },
+            "args": { type: 'array' },
+            "workingDir": { type: 'string' },
+	        "ports": {
+                type: 'array',
+                schema: {
+                    "name": { type: 'string' },
+                    "hostPort": { type: 'number' },
+                    "containerPort": { type: 'number' },
+                    "protocol": { type: 'string' },
+                    "hostIP": { type: 'string' }
                 }
             },
-            "volumeMounts": [
-                {
-                    "name": "",
-                    "readOnly": true,
-                    "mountPath": "",
-                    "subPath": ""
+            "env": {
+                type: 'array',
+                schema: {
+                    "name": { type: 'string' },
+                    "value": { type: 'string' }
                 }
-            ],
+            },
+            "resources": {
+                type: 'object',
+                schema: {
+                    "limits": {
+                        type: 'object'
+                    },
+                    "requests": {
+                        type: 'object'
+                    }
+                }
+            },
+            "volumeMounts": {
+                type: 'array',
+                schema: {
+                    "name": { type: 'string' },
+                    "readOnly": { type: 'boolean' },
+                    "mountPath": { type: 'string' },
+                    "subPath": { type: 'string' }
+                }
+            },
             "livenessProbe": {
-                "initialDelaySeconds": 0,
-                "timeoutSeconds": 0,
-                "periodSeconds": 0,
-                "successThreshold": 0,
-                "failureThreshold": 0
+                type: 'object',
+                schema: {
+                    "initialDelaySeconds": { type: 'number' },
+                    "timeoutSeconds": { type: 'number' },
+                    "periodSeconds": { type: 'number' },
+                    "successThreshold": { type: 'number' },
+                    "failureThreshold": { type: 'number' }
+                }
             },
             "readinessProbe": {
-                "initialDelaySeconds": 0,
-                "timeoutSeconds": 0,
-                "periodSeconds": 0,
-                "successThreshold": 0,
-                "failureThreshold": 0
+                type: 'object',
+                schema: {
+                    "initialDelaySeconds": { type: 'number' },
+                    "timeoutSeconds": { type: 'number' },
+                    "periodSeconds": { type: 'number' },
+                    "successThreshold": { type: 'number' },
+                    "failureThreshold": { type: 'number' }
+                }
             },
-            "imagePullPolicy": ""
+            "imagePullPolicy": { type: 'string' }
         }
-    ]
+    }
 };

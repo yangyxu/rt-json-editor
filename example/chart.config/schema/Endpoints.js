@@ -1,17 +1,24 @@
 module.exports = {
-    "name": "",
-    "namespace": "",
-    "subsets": [
-        {
+    "name": { type: 'string' },
+    "namespace": { type: 'string' },
+    "subsets": {
+        type: 'array',
+        schema: {
             "addresses": {
-                "ip": "",
-                "hostname": ""
+                type: 'object',
+                schema: {
+                    "ip": {type: 'string'},
+                    "hostname": {type: 'string'}
+                }
             },
             "ports": {
-                "name": "",
-                "port": 0,
-                "protocol": ""
+                type: 'object',
+                schema: {
+                    "name": {type: 'string'},
+                    "port": {type: 'number'},
+                    "protocol": {type: 'string'}
+                }
             }
         }
-    ]
+    }
 };

@@ -1,6 +1,10 @@
 var React = require('react');
 var FIELDS = require('../../src/index.js');
 module.exports = React.createClass({
+    __onChange: function (data, child, root){
+		var _root = root || child;
+		console.log('Changed: ', _root.state.value);
+	},
     render: function () {
         var _schema = require('./schema/' + this.props.type + '.js');
         return (

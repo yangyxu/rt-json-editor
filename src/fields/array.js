@@ -6,8 +6,6 @@ var ObjectAddItem = require('./ObjectAddItem.js');
 var _array = React.createClass({
 	getDefaultProps: function () {
 		return {
-			value: [],
-			schema: {},
 			fold: false,
 			displayClosure: true,
 			displayItemCount: true
@@ -16,7 +14,7 @@ var _array = React.createClass({
 	getInitialState: function () {
 		return {
 			_key: this.props._key,
-			value: this.props.value,
+			value: this.props.value||[],
 			fold: this.props.fold,
 			adding: false,
 			editing: false
@@ -33,6 +31,28 @@ var _array = React.createClass({
 			this.forceUpdate();
 		}
 	},
+	getDefaultValueByType: function (type){
+		if(type=='array'){
+			return [];
+		}
+		if(type=='string'||type=='date'){
+			return '';
+		}
+		if(type=='number'){
+			return 0;
+		}
+		if(type=='object'){
+			return {};
+		}
+		if(type=='function'){
+			return function (){
+
+			};
+		}
+		if(type=='boolean'){
+			return false;
+		}
+	},
 	getValueFromSchema: function (schema){
 		var _type = Object.prototype.toString.call(schema).toLowerCase().split(' ')[1].replace(']', ''),
 			_value = null;
@@ -43,10 +63,9 @@ var _array = React.createClass({
 				if(temp.schema){
 					_value.push(this.getValueFromSchema(temp.schema));
 				}else{
-					_value.push(temp.value||null);
+					_value.push(temp.value||this.getDefaultValueByType(temp.type));
 				}*/
-
-				_value.push(temp.value||null);
+				_value.push(temp.value||this.getDefaultValueByType(temp.type));
 			}.bind(this));
 		}else if(_type=='object'){
 			_value = {};
@@ -58,12 +77,11 @@ var _array = React.createClass({
 				}else{
 					_value[key] = _temp.value || null;
 				}*/
-
-				_value[key] = _temp.value || null;
+				_value[key] = _temp.value || this.getDefaultValueByType(_temp.type);
 			}
 		}
-		console.log(_value, schema);
-		return {};
+
+		return _value;
 	},
 	__onChildValueInitial: function (key, value, child, index){
 		
@@ -117,11 +135,18 @@ var _array = React.createClass({
 	},
 	__onAdd: function (){
 		if(this.props.schema){
-			//todo : not finished.
-			this.state.value.push({});
+			var _value = this.getValueFromSchema(this.props.schema);
+			this.state.value.push(_value);
 			this.forceUpdate();
+			this.props.onArrayItemAdded && this.props.onArrayItemAdded(_value, this);
+			this.props.onChange && this.props.onChange(_value, this, this);
 		}else{
 			this.setState({ adding: true });
+		}
+	},
+	__renderDesc: function (){
+		if(this.props.desc){
+			return <div className="field-desc">{this.props.desc}</div>;
 		}
 	},
 	render: function(){
@@ -133,17 +158,18 @@ var _array = React.createClass({
 			boolean: require('./string.boolean.date.number.js'),
 			date: require('./string.boolean.date.number.js'),
 			number: require('./string.boolean.date.number.js')
+		};
+		var _btns = [];
+
+		if(this.props.editable !== false) {
+			_btns.push({ icon: 'fa-plus', onClick: this.__onAdd });
 		}
-		var _btns = [
-			{ icon: 'fa-plus', onClick: this.__onAdd }
-		];
-		if(this.props._key){
+		if(this.props._key&&this.props.keyEditable){
 			_btns.unshift({ icon: 'fa-edit', onClick: ()=>this.setState({ editing: true }) });
 		}
-		if(this.props.parent) {
+		if(this.props.parent && this.props.removal) {
 			_btns.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
-		//console.log(this.state.value);
 		return (
 			<div className={"rt-json-editor-field rt-json-editor-field-object rt-json-editor-field-array " + (this.state.fold?' fold':' unfold') + (this.props.required?' required':'')}>
 				{
@@ -157,7 +183,7 @@ var _array = React.createClass({
 						{
 							this.state._key && <div className="_key">
 								{
-									this.state.editing ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="field-key _key-name">{this.props.label || this.state._key}</span>
+									(this.state.editing && this.props.keyEditable) ? <input onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="field-key _key-name">{this.props.label || this.state._key}</span>
 								}
 								<span className="_key-colon">:</span>
 							</div>
@@ -173,6 +199,9 @@ var _array = React.createClass({
 						}
 						<ItemToolBar items={_btns} />
 					</div>
+					{
+						this.__renderDesc()
+					}
 					<div className="array-values">
 						{
 							this.state.value.map(function (item, index){

@@ -12,6 +12,16 @@
 .rt-json-editor-field > .field-warp > .meta-data:hover > .rt-json-editor-item-toolbar {
   display: inline-block;
 }
+.rt-json-editor-field .field-desc {
+  padding: 2px 4px;
+  border: 1px solid #ccced0;
+  background-color: #fbf8f8;
+  border-radius: 4px;
+  bottom: -1px;
+  position: relative;
+  display: inline;
+  margin-left: 6px;
+}
 .rt-json-editor-field.required > .field-warp > .meta-data .field-key {
   background-color: #fff1f1;
   border-radius: 2px;
@@ -31,7 +41,7 @@
 }
 .rt-json-editor-field .editing-mode input,
 .rt-json-editor-field .editing-mode select {
-  width: 100%;
+  /*width: 100%;*/
   background-color: #f3f3f3;
   outline: none;
   padding: 2px 5px;
@@ -109,6 +119,7 @@
   padding: 10px;
   margin: 10px 0px;
   font-family: monospace;
+  position: relative;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
 }
 .rt-json-editor-object-add-item .form-item {
@@ -148,6 +159,15 @@
   outline: 0;
   -webkit-box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
   box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+.rt-json-editor-object-add-item .cancel {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  cursor: pointer;
+}
+.rt-json-editor-object-add-item .cancel:hover {
+  color: #fa4a5c;
 }
 .rt-json-editor-object-add-item .form-btns {
   display: flex;
@@ -586,6 +606,7 @@ span.CodeMirror-selectedtext { background: none; }
   display: flex;
   align-items: center;
   color: #8a8484;
+  cursor: pointer;
 }
 .rt-json-editor-radio .radio-item .item-tag {
   display: inline-block;
@@ -600,6 +621,9 @@ span.CodeMirror-selectedtext { background: none; }
 }
 .rt-json-editor-radio .radio-item.actived .item-tag {
   background-color: #049fd9;
+}
+.rt-json-editor-field-object .adding-form-container {
+  padding: 0px 6px;
 }
 .rt-json-editor-field-object.fold > .object-warp > .object-key-value-pair {
   display: none;

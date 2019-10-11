@@ -1,19 +1,16 @@
 module.exports = {
     "name": {
-        type: 'string',
-        required: true
+        type: 'string'
     },
     "namespace": {
-        type: 'string',
-        required: true
+        type: 'string'
     },
     "rules": {
         type: 'array',
-        required: true,
         schema: {
-            "verbs": { type: 'array', required: true },
-            "apiGroups": { type: 'array', required: true },
-            "resources": { type: 'array', required: true }
+            "verbs": { type: 'array' },
+            "apiGroups": { type: 'array' },
+            "resources": { type: 'array' }
         }
     }
 };

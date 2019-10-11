@@ -1,29 +1,25 @@
 module.exports = {
     "name": {
-        type: 'string',
-        required: true
+        type: 'string'
     },
     "namespace": {
-        type: 'string',
-        required: true
+        type: 'string'
     },
     "roleRef": {
         type: 'object',
-        required: true,
         schema: {
-            "apiGroup": { type: 'string', required: true },
-            "kind": { type: 'string', required: true },
-            "name": { type: 'string', required: true }
+            "apiGroup": { type: 'string' },
+            "kind": { type: 'string' },
+            "name": { type: 'string' }
         }
     },
     "subjects": {
         type: 'array',
-        required: true,
         schema: {
-            "kind": { type: 'string', required: true },
-            "apiGroup": { type: 'string', required: true },
-            "name": { type: 'string', required: true },
-            "namespace": { type: 'string', required: true }
+            "kind": { type: 'string' },
+            "apiGroup": { type: 'string' },
+            "name": { type: 'string' },
+            "namespace": { type: 'string' }
         }
     }
 };

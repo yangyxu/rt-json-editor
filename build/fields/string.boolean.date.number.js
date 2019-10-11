@@ -8,6 +8,11 @@ var ItemToolBar = require('./ItemToolBar.js');
 
 module.exports = React.createClass({
   displayName: "exports",
+  getDefaultProps: function getDefaultProps() {
+    return {
+      removal: false
+    };
+  },
   getInitialState: function getInitialState() {
     return {
       _key: this.props._key,
@@ -67,6 +72,19 @@ module.exports = React.createClass({
         }, this.state.value);
     }
   },
+  __onInputKeyUp: function __onInputKeyUp(event) {
+    if (event.keyCode == 13) {
+      this.setState({
+        value: event.target.value,
+        editing: false
+      });
+      this.props.onChange && this.props.onChange({
+        key: this.state._key,
+        prevValue: this.state.value,
+        value: event.target.value
+      }, this);
+    }
+  },
   __renderInput: function __renderInput() {
     var _this = this;
 
@@ -101,6 +119,7 @@ module.exports = React.createClass({
     }
 
     return React.createElement("input", {
+      onKeyUp: this.__onInputKeyUp,
       ref: function ref(dom) {
         return _this._valuedom = dom;
       },
@@ -114,7 +133,7 @@ module.exports = React.createClass({
     var _this2 = this;
 
     if (this.state._key) {
-      return !!this.props.required ? React.createElement("span", {
+      return !!this.props.required || !this.props.keyEditable ? React.createElement("span", {
         className: "field-key"
       }, this.props.label || this.state._key) : React.createElement("input", {
         ref: function ref(dom) {
@@ -125,6 +144,13 @@ module.exports = React.createClass({
         name: "_key",
         type: "text"
       });
+    }
+  },
+  __renderDesc: function __renderDesc() {
+    if (this.props.desc) {
+      return React.createElement("div", {
+        className: "field-desc"
+      }, this.props.desc);
     }
   },
   render: function render() {
@@ -143,7 +169,7 @@ module.exports = React.createClass({
       });
     }
 
-    if (!this.props.required) {
+    if (this.props.removal && !this.props.required) {
       _toolbars.push({
         icon: 'fa-trash',
         onClick: this.__onRemove
@@ -172,16 +198,17 @@ module.exports = React.createClass({
       },
       title: "CANCEL",
       className: "icon-btn far fa-times-circle"
-    })))) : React.createElement("div", {
+    }))), this.__renderDesc()) : React.createElement("div", {
       className: "field-warp " + (this.props.type + "-warp")
     }, React.createElement("div", {
       className: "meta-data"
     }, this.state._key && React.createElement("span", {
+      title: this.props.title,
       className: "field-key"
     }, this.state._key), this.state._key && React.createElement("span", {
       className: "field-colon"
     }, ":"), this.__renderValue(), React.createElement(ItemToolBar, {
       items: _toolbars
-    }))));
+    })), this.__renderDesc()));
   }
 });

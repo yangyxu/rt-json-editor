@@ -67,7 +67,7 @@ module.exports = React.createClass({
 	},
 	render: function(){
 		return (
-            <ResourceType type="DaemonSet" />
+            <ResourceType type="ServiceAccount" />
         );
 	}
 });

@@ -15,10 +15,10 @@ var _object = React.createClass({
   getDefaultProps: function getDefaultProps() {
     return {
       _key: null,
-      value: null,
       fold: true,
       parent: null,
       editable: true,
+      keyEditable: false,
       displayClosure: true,
       displayItemCount: true
     };
@@ -58,17 +58,19 @@ var _object = React.createClass({
     }
   },
   __joinValueAndSchema: function __joinValueAndSchema(value, schema) {
-    if (value == undefined) {
-      value = {};
-      this.props.onValueInitial && this.props.onValueInitial(this.props._key, value, this);
+    //var _values = Object.assign({}, value);
+    var _values = value;
+
+    if (_values == undefined) {
+      _values = {};
+      this.props.onValueInitial && this.props.onValueInitial(this.props._key, _values, this);
     }
 
     var _schema = Object.assign({}, schema),
-        _value = null,
-        _values = value;
+        _value = null;
 
-    for (var key in value) {
-      _value = value[key];
+    for (var key in _values) {
+      _value = _values[key];
 
       if (_schema[key]) {
         _schema[key].value = _value || _schema[key].value;
@@ -82,7 +84,6 @@ var _object = React.createClass({
 
     for (var key in _schema) {
       if (_schema[key]) {
-        //console.log(this.__getSchemaInitialValue(_schema[key]));
         _values[key] = this.__getSchemaInitialValue(_schema[key]);
       } else {//console.log(schema, _schema);
       }
@@ -94,6 +95,7 @@ var _object = React.createClass({
     };
   },
   __onCreateSubmit: function __onCreateSubmit(data) {
+    data.updated = true;
     this.state.value[data._key] = data.value;
     this.state.schema[data._key] = data;
     this.state.adding = false;
@@ -106,7 +108,7 @@ var _object = React.createClass({
     });
   },
   __onRemove: function __onRemove() {
-    this.props.onRemove && this.props.onRemove(this.props._key);
+    this.props.onRemove && this.props.onRemove(this.props._key, this);
   },
   __onChildValueInitial: function __onChildValueInitial(key, value, child) {
     if (key && this.state.value.hasOwnProperty(key)) {
@@ -125,12 +127,22 @@ var _object = React.createClass({
   },
   __onChildChange: function __onChildChange(data, child) {
     if (this == child.props.parent) {
-      if (data.key && data.prevKey && data.key != data.prevKey) {
-        this.state.value[data.prevKey] = null;
-        delete this.state.value[data.prevKey];
+      if (data.key && data.prevKey) {
+        if (data.key != data.prevKey) {
+          this.state.value[data.prevKey] = null;
+          delete this.state.value[data.prevKey];
+        }
       }
 
-      this.state.value[data.key || data.prevKey] = data.value;
+      if (data.key || data.prevKey) {
+        this.state.value[data.key || data.prevKey] = data.value;
+      }
+
+      if (child.props.type == 'array') {
+        if (!this.state.value[child.props._key]) {
+          this.state.value[child.props._key] = child.state.value;
+        }
+      }
     }
 
     this.props.onChange && this.props.onChange(data, child, this);
@@ -148,20 +160,36 @@ var _object = React.createClass({
       value: this.state.value
     }, this, this);
   },
+  __renderDesc: function __renderDesc() {
+    if (this.props.desc) {
+      return React.createElement("div", {
+        className: "field-desc"
+      }, this.props.desc);
+    }
+  },
+  __onKeyInputKeyUp: function __onKeyInputKeyUp(event) {
+    if (event.keyCode == 13) {
+      this.__onKeyInputBlur(event);
+    }
+  },
   render: function render() {
     var _this = this;
 
-    var _btns = [{
-      icon: 'fa-plus',
-      onClick: function onClick() {
-        return _this.setState({
-          adding: true,
-          fold: false
-        });
-      }
-    }];
+    var _btns = [];
 
-    if (this.props._key) {
+    if (this.props.editable !== false) {
+      _btns.push({
+        icon: 'fa-plus',
+        onClick: function onClick() {
+          return _this.setState({
+            adding: true,
+            fold: false
+          });
+        }
+      });
+    }
+
+    if (this.props._key && this.props.keyEditable) {
       _btns.unshift({
         icon: 'fa-edit',
         onClick: function onClick() {
@@ -172,7 +200,7 @@ var _object = React.createClass({
       });
     }
 
-    if (this.props.parent) {
+    if (this.props.parent && this.props.removal) {
       _btns.push({
         icon: 'fa-trash',
         onClick: this.__onRemove
@@ -181,10 +209,12 @@ var _object = React.createClass({
 
     return React.createElement("div", {
       className: "rt-json-editor-field rt-json-editor-field-object " + (this.state.fold ? 'fold' : 'unfold')
-    }, this.state.adding && React.createElement(ObjectAddItem, {
+    }, this.state.adding && React.createElement("div", {
+      className: "adding-form-container"
+    }, React.createElement(ObjectAddItem, {
       onSubmit: this.__onCreateSubmit,
       onCancel: this.__onCreateCancel
-    }), React.createElement("div", {
+    })), React.createElement("div", {
       className: "field-warp object-warp"
     }, React.createElement("div", {
       className: "meta-data"
@@ -199,13 +229,15 @@ var _object = React.createClass({
       className: "fas " + (this.state.fold ? 'fa-caret-right' : 'fa-caret-down')
     })), this.state._key && React.createElement("div", {
       className: "_key"
-    }, this.state.editing ? React.createElement("input", {
+    }, this.state.editing && this.props.keyEditable ? React.createElement("input", {
+      onKeyUp: this.__onKeyInputKeyUp,
       onBlur: this.__onKeyInputBlur,
       defaultValue: this.state._key,
       className: "key-input",
       name: "_key",
       type: "text"
     }) : React.createElement("span", {
+      title: this.props.title,
       className: "_key-name"
     }, this.state._key), React.createElement("span", {
       className: "_key-colon"
@@ -214,12 +246,17 @@ var _object = React.createClass({
     }, this.props.label), this.props.displayClosure && React.createElement("span", {
       className: "closure-start"
     }, '{'), !!this.state.fold && React.createElement("span", {
-      className: "dots"
+      className: "dots",
+      onClick: function onClick() {
+        return _this.setState({
+          fold: !_this.state.fold
+        });
+      }
     }, "..."), this.props.displayItemCount && React.createElement("span", {
       className: "item-count"
     }, "Object{" + Object.keys(this.state.value).length + "}"), this.props.editable && React.createElement(ItemToolBar, {
       items: _btns
-    })), React.createElement("div", {
+    })), this.__renderDesc(), React.createElement("div", {
       className: "object-key-value-pair"
     }, Object.keys(this.state.schema).map(function (key, index) {
       var _item = this.state.schema[key],
@@ -230,6 +267,7 @@ var _object = React.createClass({
           key: index,
           _key: key,
           parent: this,
+          value: this.state.value[key],
           fold: this.props.fold,
           displayClosure: this.props.displayClosure,
           displayItemCount: this.props.displayItemCount,

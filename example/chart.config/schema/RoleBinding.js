@@ -1,17 +1,17 @@
 module.exports = {
-    "name": "",
-    "namespace": "",
+    "name": { type: 'string' },
+    "namespace": { type: 'string' },
     "roleRef": {
-        "apiGroup": "",
-	    "kind": "",
-	    "name": ""
+        "apiGroup": { type: 'string' },
+	    "kind": { type: 'string' },
+	    "name": { type: 'string' }
     },
     "subjects": [
         {
-            "kind": "",
-            "apiGroup": "",
-            "name": "",
-            "namespace": ""
+            "kind": { type: 'string' },
+            "apiGroup": { type: 'string' },
+            "name": { type: 'string' },
+            "namespace": { type: 'string' }
         }
     ]
 };

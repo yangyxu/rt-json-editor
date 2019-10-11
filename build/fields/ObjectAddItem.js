@@ -35,8 +35,11 @@ module.exports = React.createClass({
   getInitialState: function getInitialState() {
     return {
       _key: this.props._key,
-      type: 'string',
-      value: this.props.value
+      type: this.props.type || 'string',
+      value: this.props.value,
+      editable: true,
+      removal: true,
+      keyEditable: true
     };
   },
   __onKeyChange: function __onKeyChange(event) {
@@ -170,7 +173,13 @@ module.exports = React.createClass({
 
     return React.createElement("form", {
       className: "rt-json-editor-object-add-item"
-    }, this.state._key != null && React.createElement("div", {
+    }, React.createElement("span", {
+      title: "CANCEL",
+      onClick: this.props.onCancel,
+      className: "form-btn cancel"
+    }, React.createElement("i", {
+      className: "fa fa-times-circle"
+    })), this.state._key != null && React.createElement("div", {
       className: "form-item"
     }, React.createElement("span", {
       className: "label"
@@ -188,6 +197,7 @@ module.exports = React.createClass({
     }, React.createElement("span", {
       className: "label"
     }, "Type:"), React.createElement("select", {
+      disabled: !!this.props.type,
       required: true,
       defaultValue: this.state.value || "string",
       className: "rt-json-editor-data-type-select",
@@ -208,11 +218,6 @@ module.exports = React.createClass({
       className: "form-btn submit"
     }, React.createElement("i", {
       className: "fa fa-plus"
-    }), "Create"), React.createElement("span", {
-      onClick: this.props.onCancel,
-      className: "form-btn cancel"
-    }, React.createElement("i", {
-      className: "fa fa-trash"
-    }), "Cancel")));
+    }), "Create")));
   }
 });

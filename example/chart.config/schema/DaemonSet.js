@@ -1,58 +1,47 @@
 module.exports = {
     "name": {
         type: 'string',
-        required: true
+        keyEditable: false
     },
     "namespace": {
         type: 'string',
-        required: true
+        keyEditable: true
     },
     "containers": {
         type: 'array',
-        required: true,
         schema: {
+            "command": {
+                type: 'array'
+            },
             "name": {
-                type: 'string',
-                required: true
+                type: 'string'
             },
             "image": {
-                type: 'string',
-                required: true
-            },
-            "command": {
-                type: 'array',
-                required: true
+                type: 'string'
             },
             "args": {
-                type: 'array',
-                required: true
+                type: 'array'
             },
             "workingDir": {
                 type: 'string',
-                required: true
             },
 	        "ports": {
                 type: 'array',
                 schema: {
                     "name": {
-                        type: 'string',
-                        required: true
+                        type: 'string'
                     },
                     "hostPort": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "containerPort": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "protocol": {
-                        type: 'string',
-                        required: true
+                        type: 'string'
                     },
                     "hostIP": {
-                        type: 'string',
-                        required: true
+                        type: 'string'
                     }
                 }
             },
@@ -60,10 +49,10 @@ module.exports = {
                 type: 'array',
                 schema: {
                     "name": {
-                        type: 'string', required: true
+                        type: 'string'
                     },
                     "value": {
-                        type: 'string', required: true
+                        type: 'string'
                     }
                 }
             },
@@ -71,10 +60,10 @@ module.exports = {
                 type: 'object',
                 schema: {
                     "limits": {
-                        type: 'object', required: true
+                        type: 'object'
                     },
                     "requests": {
-                        type: 'object', required: true
+                        type: 'object'
                     }
                 }
             },
@@ -82,16 +71,16 @@ module.exports = {
                 type: 'array',
                 schema: {
                     "name": {
-                        type: 'string', required: true
+                        type: 'string'
                     },
                     "readOnly": {
-                        type: 'string', required: true
+                        type: 'string'
                     },
                     "mountPath": {
-                        type: 'string', required: true
+                        type: 'string'
                     },
                     "subPath": {
-                        type: 'string', required: true
+                        type: 'string'
                     }
                 }
             },
@@ -100,56 +89,46 @@ module.exports = {
                 required: true,
                 schema: {
                     "initialDelaySeconds": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "timeoutSeconds": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "periodSeconds": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "successThreshold": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "failureThreshold": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     }
                 }
             },
             "readinessProbe": {
                 type: 'object',
                 required: true,
+                desc: 'This is array data.',
                 schema: {
                     "initialDelaySeconds": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "timeoutSeconds": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "periodSeconds": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "successThreshold": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     },
                     "failureThreshold": {
-                        type: 'int',
-                        required: true
+                        type: 'number'
                     }
                 }
             },
             "imagePullPolicy": {
-                type: 'string',
-                required: true
+                type: 'string'
             }
         }
     }

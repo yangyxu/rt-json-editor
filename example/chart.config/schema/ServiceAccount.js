@@ -1,4 +1,4 @@
 module.exports = {
-    "name": "",
-    "namespace": ""
+    "name": { type: 'string' },
+    "namespace": { type: 'string' }
 };

@@ -1,14 +1,15 @@
 module.exports = {
-    "name": "",
-    "namespace": "",
-    "type": "",
-	"selector": {},
-	"ports": [
-        {
-            "name": "",
-            "protocol": "",
-            "port": 0,
-            "nodePort": 0
+    "name": { type: 'string' },
+    "namespace": { type: 'string' },
+    "type": { type: 'string' },
+	"selector": { type: 'object' },
+	"ports": {
+        type: 'array',
+        schema: {
+            "name": { type: 'string' },
+            "protocol": { type: 'string' },
+            "port": { type: 'number' },
+            "nodePort": { type: 'number' }
         }
-    ]
+    }
 };

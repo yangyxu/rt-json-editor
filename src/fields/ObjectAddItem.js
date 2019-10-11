@@ -26,7 +26,10 @@ module.exports = React.createClass({
 		return {
 			_key: this.props._key,
 			type: this.props.type || 'string',
-			value: this.props.value
+			value: this.props.value,
+			editable: true,
+			removal: true,
+			keyEditable: true,
 		};
 	},
 	__onKeyChange: function (event){
@@ -101,6 +104,7 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<form className="rt-json-editor-object-add-item">
+				<span title="CANCEL" onClick={this.props.onCancel} className="form-btn cancel"><i className="fa fa-times-circle" /></span>
 				{
 					(this.state._key != null) && <div className="form-item">
 						<span className="label">Key:</span>
@@ -125,7 +129,6 @@ module.exports = React.createClass({
 				</div>
 				<div className="form-btns">
 					<span onClick={this.__onCreate} className="form-btn submit"><i className="fa fa-plus" />Create</span>
-					<span onClick={this.props.onCancel} className="form-btn cancel"><i className="fa fa-trash" />Cancel</span>
 				</div>
 			</form>
 		);

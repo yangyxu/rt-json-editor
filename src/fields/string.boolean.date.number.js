@@ -2,6 +2,11 @@ require('./string.boolean.date.number.less');
 var React = require('react');
 var ItemToolBar = require('./ItemToolBar.js');
 module.exports = React.createClass({
+	getDefaultProps: function () {
+		return {
+			removal: false
+		};
+	},
 	getInitialState: function () {
 		return {
 			_key: this.props._key,
@@ -49,6 +54,19 @@ module.exports = React.createClass({
 				return <span className="field-value">{this.state.value}</span>;
 		}
 	},
+	__onInputKeyUp: function (event){
+		if(event.keyCode==13){
+			this.setState({
+				value: event.target.value,
+				editing: false
+			});
+			this.props.onChange && this.props.onChange({
+				key: this.state._key,
+				prevValue: this.state.value,
+				value: event.target.value
+			}, this);
+		}
+	},
 	__renderInput: function (){
 		if(this.props.type == "boolean") {
 			return <select ref={(dom)=>this._valuedom = dom} required defaultValue={this.state.value}>
@@ -68,13 +86,18 @@ module.exports = React.createClass({
 				}
 			</select>;
 		}
-		return <input ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value" type="text" />;
+		return <input onKeyUp={this.__onInputKeyUp} ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value" type="text" />;
 	},
 	__renderEditableKey: function (){
 		if(this.state._key){
-			return !!this.props.required ? <span className="field-key">
+			return (!!this.props.required || !this.props.keyEditable) ? <span className="field-key">
 				{this.props.label || this.state._key}
 			</span> : <input ref={(dom)=>this._keydom = dom} className="input" defaultValue={this.state._key} name="_key" type="text" />;
+		}
+	},
+	__renderDesc: function (){
+		if(this.props.desc){
+			return <div className="field-desc">{this.props.desc}</div>;
 		}
 	},
 	render:function(){
@@ -82,7 +105,7 @@ module.exports = React.createClass({
 		if(this.props.editable !== false){
 			_toolbars.push({ icon: 'fa-edit', onClick: ()=>this.setState({ editing: true }) });
 		}
-		if(!this.props.required) {
+		if(this.props.removal && !this.props.required) {
 			_toolbars.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
 
@@ -103,6 +126,7 @@ module.exports = React.createClass({
 								<i onClick={()=>this.setState({ editing: false })} title="CANCEL" className="icon-btn far fa-times-circle" />
 							</span>
 						</div>
+						{this.__renderDesc()}
 					</div> : <div className={"field-warp " + (this.props.type + "-warp")}>
 						<div className="meta-data">
 							{
@@ -114,6 +138,7 @@ module.exports = React.createClass({
 							{this.__renderValue()}
 							<ItemToolBar items={_toolbars} />
 						</div>
+						{this.__renderDesc()}
 					</div>
 				}
 			</div>

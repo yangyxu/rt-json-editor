@@ -1,14 +1,14 @@
 module.exports = {
     "name": {
-        type: 'string',
-        required: true
+        type: 'string'
     },
     "namespace": {
-        type: 'string',
-        required: true
+        type: 'string'
     },
     "data": {
         type: 'object',
-        required: true
+        editable: true,
+        keyEditable: false,
+        removal: false
     }
 };
