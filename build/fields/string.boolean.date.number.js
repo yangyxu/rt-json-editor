@@ -205,7 +205,7 @@ module.exports = React.createClass({
     }, this.state._key && React.createElement("span", {
       title: this.props.title,
       className: "field-key"
-    }, this.state._key), this.state._key && React.createElement("span", {
+    }, this.props.label || this.state._key), this.state._key && React.createElement("span", {
       className: "field-colon"
     }, ":"), this.__renderValue(), React.createElement(ItemToolBar, {
       items: _toolbars

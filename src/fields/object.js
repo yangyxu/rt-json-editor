@@ -17,6 +17,7 @@ var _object = React.createClass({
 	},
 	getInitialState: function () {
 		var _data = this.__joinValueAndSchema(this.props.value, this.props.schema);
+		console.log(this.props.value, _data.value, this.props.value == _data.value);
 		return {
 			_key: this.props._key,
 			value: _data.value,

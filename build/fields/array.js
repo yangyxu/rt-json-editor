@@ -110,7 +110,7 @@ var _array = React.createClass({
   },
   __onChildChange: function __onChildChange(data, child, index) {
     if (this == child.props.parent) {
-      if (data.prevValue != data.value) {
+      if (!data.updated && data.prevValue != data.value) {
         this.state.value.splice(index, 1, data.value);
         this.forceUpdate();
       }
