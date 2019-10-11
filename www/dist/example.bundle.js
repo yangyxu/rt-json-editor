@@ -93,7 +93,18 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var React = __webpack_require__(/*! react */ \"react\");\n\nvar ResourceType = __webpack_require__(/*! ./chart.config/ResourceType */ \"./example/chart.config/ResourceType.js\");\n\nmodule.exports = React.createClass({\n  displayName: \"exports\",\n  getInitialState: function getInitialState() {\n    return {\n      DaemonSet: {\n        name: '',\n        namespace: '',\n        containers: [{\n          name: '',\n          image: '',\n          command: [],\n          args: [],\n          workingDir: '',\n          ports: [{\n            name: '',\n            hostPort: '',\n            containerPort: '',\n            protocol: '',\n            hostIP: ''\n          }],\n          env: [{\n            name: '',\n            value: ''\n          }],\n          resources: {\n            limits: {},\n            requests: {}\n          },\n          volumeMounts: [{\n            name: '',\n            readOnly: false,\n            mountPath: '',\n            subPath: ''\n          }],\n          livenessProbe: {\n            initialDelaySeconds: 0,\n            timeoutSeconds: 0,\n            periodSeconds: 0,\n            successThreshold: 0,\n            failureThreshold: 0\n          },\n          readinessProbe: {\n            initialDelaySeconds: 0,\n            timeoutSeconds: 0,\n            periodSeconds: 0,\n            successThreshold: 0,\n            failureThreshold: 0\n          },\n          imagePullPolicy: ''\n        }]\n      }\n    };\n  },\n  render: function render() {\n    return React.createElement(ResourceType, {\n      type: \"ServiceAccount\"\n    });\n  }\n});\n\n//# sourceURL=webpack:///./example/RT.js?");
+eval("__webpack_require__(/*! ./RT.less */ \"./example/RT.less\");\n\nvar React = __webpack_require__(/*! react */ \"react\");\n\nvar ResourceType = __webpack_require__(/*! ./chart.config/ResourceType */ \"./example/chart.config/ResourceType.js\");\n\nvar Types = __webpack_require__(/*! ./chart.config/schema/index */ \"./example/chart.config/schema/index.js\");\n\nmodule.exports = React.createClass({\n  displayName: \"exports\",\n  getInitialState: function getInitialState() {\n    return {\n      type: 'ClusterRole'\n    };\n  },\n  render: function render() {\n    return React.createElement(\"div\", {\n      className: \"rt\"\n    }, React.createElement(\"div\", {\n      className: \"header\"\n    }, \"JSON Editor Examples\"), React.createElement(\"div\", {\n      className: \"container\"\n    }, React.createElement(\"div\", {\n      className: \"left\"\n    }, React.createElement(\"ul\", {\n      className: \"types\"\n    }, Object.keys(Types).map(function (type, index) {\n      var _this = this;\n\n      return React.createElement(\"li\", {\n        onClick: function onClick() {\n          return _this.setState({\n            type: type\n          });\n        },\n        className: \"type \" + (this.state.type == type ? 'curr' : ''),\n        key: index\n      }, type);\n    }.bind(this)))), React.createElement(\"div\", {\n      className: \"right\"\n    }, React.createElement(ResourceType, {\n      type: this.state.type,\n      key: this.state.type\n    }))), React.createElement(\"div\", {\n      className: \"footer\"\n    }, React.createElement(\"a\", {\n      href: \"https://github.com/yangyxu/rt-json-editor\"\n    }, \"rt-json-editor\"), \"  By yangyxu\"));\n  }\n});\n\n//# sourceURL=webpack:///./example/RT.js?");
+
+/***/ }),
+
+/***/ "./example/RT.less":
+/*!*************************!*\
+  !*** ./example/RT.less ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./example/RT.less?");
 
 /***/ }),
 
@@ -104,7 +115,18 @@ eval("var React = __webpack_require__(/*! react */ \"react\");\n\nvar ResourceTy
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var React = __webpack_require__(/*! react */ \"react\");\n\nvar FIELDS = __webpack_require__(/*! ../../src/index.js */ \"./src/index.js\");\n\nmodule.exports = React.createClass({\n  displayName: \"exports\",\n  __onChange: function __onChange(data, child, root) {\n    var _root = root || child;\n\n    console.log('Changed: ', _root.state.value);\n  },\n  render: function render() {\n    var _schema = __webpack_require__(\"./example/chart.config/schema sync recursive ^\\\\.\\\\/.*\\\\.js$\")(\"./\" + this.props.type + \".js\");\n\n    return React.createElement(\"div\", {\n      className: \"resource-container\"\n    }, React.createElement(FIELDS.object, {\n      fold: false,\n      displayClosure: true,\n      displayItemCount: true,\n      label: this.props.type,\n      value: this.props.value,\n      schema: _schema,\n      onChange: this.__onChange\n    }));\n  }\n});\n\n//# sourceURL=webpack:///./example/chart.config/ResourceType.js?");
+eval("__webpack_require__(/*! ./ResourceType.less */ \"./example/chart.config/ResourceType.less\");\n\nvar React = __webpack_require__(/*! react */ \"react\");\n\nvar FIELDS = __webpack_require__(/*! ../../src/index.js */ \"./src/index.js\");\n\n__webpack_require__(/*! codemirror/lib/codemirror.css */ \"./node_modules/codemirror/lib/codemirror.css\");\n\n__webpack_require__(/*! codemirror/lib/codemirror.js */ \"./node_modules/codemirror/lib/codemirror.js\");\n\n__webpack_require__(/*! codemirror/theme/material.css */ \"./node_modules/codemirror/theme/material.css\");\n\n__webpack_require__(/*! codemirror/mode/yaml/yaml.js */ \"./node_modules/codemirror/mode/yaml/yaml.js\");\n\n__webpack_require__(/*! codemirror/mode/javascript/javascript.js */ \"./node_modules/codemirror/mode/javascript/javascript.js\");\n\nvar CodeMirror = __webpack_require__(/*! react-codemirror2 */ \"./node_modules/react-codemirror2/index.js\").UnControlled;\n\nvar beautify = __webpack_require__(/*! prettify-js */ \"./node_modules/prettify-js/index.js\");\n\nmodule.exports = React.createClass({\n  displayName: \"exports\",\n  getInitialState: function getInitialState() {\n    return {\n      value: {},\n      code: 0,\n      schema: __webpack_require__(\"./example/chart.config/schema sync recursive ^\\\\.\\\\/.*\\\\.js$\")(\"./\" + this.props.type + \".js\")\n    };\n  },\n  __onChange: function __onChange(data, child, root) {\n    var _root = root || child;\n\n    this.setState({\n      value: _root.state.value\n    });\n    console.log('Changed: ', _root.state.value);\n  },\n  __save: function __save() {\n    if (this.state.schemastring) {\n      this.state.code = Math.random();\n      this.state.schema = JSON.parse(this.state.schemastring);\n      this.forceUpdate();\n    }\n  },\n  render: function render() {\n    var _this = this;\n\n    return React.createElement(\"div\", {\n      className: \"resource-container\"\n    }, React.createElement(\"div\", {\n      className: \"title\"\n    }, \"JSON Data Schema:\", React.createElement(\"span\", {\n      className: \"btn\",\n      onClick: this.__save\n    }, \"Save && Run\")), React.createElement(CodeMirror, {\n      value: beautify(this.state.schema),\n      options: {\n        mode: 'javascript',\n        theme: 'material',\n        lineNumbers: true,\n        tabSize: 4\n      },\n      onChange: function onChange(editor, data, value) {\n        _this.state.schemastring = value;\n\n        _this.forceUpdate();\n      }\n    }), React.createElement(\"div\", {\n      className: \"preview\"\n    }, React.createElement(\"div\", {\n      className: \"item\"\n    }, React.createElement(\"div\", {\n      className: \"title\"\n    }, \"JSON Editor: \"), React.createElement(FIELDS.object, {\n      fold: false,\n      key: this.props.type + '-' + this.state.code,\n      displayClosure: true,\n      displayItemCount: true,\n      label: this.props.type,\n      value: this.props.value,\n      schema: this.state.schema,\n      onChange: this.__onChange\n    })), this.state.value && React.createElement(\"div\", {\n      className: \"item\"\n    }, React.createElement(\"div\", {\n      className: \"title\"\n    }, \"Changed Value: \"), React.createElement(\"pre\", null, beautify(this.state.value)))));\n  }\n});\n\n//# sourceURL=webpack:///./example/chart.config/ResourceType.js?");
+
+/***/ }),
+
+/***/ "./example/chart.config/ResourceType.less":
+/*!************************************************!*\
+  !*** ./example/chart.config/ResourceType.less ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./example/chart.config/ResourceType.less?");
 
 /***/ }),
 
@@ -115,7 +137,7 @@ eval("var React = __webpack_require__(/*! react */ \"react\");\n\nvar FIELDS = _
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("var map = {\n\t\"./ClusterRole.js\": \"./example/chart.config/schema/ClusterRole.js\",\n\t\"./ClusterRoleBinding.js\": \"./example/chart.config/schema/ClusterRoleBinding.js\",\n\t\"./ConfigMap.js\": \"./example/chart.config/schema/ConfigMap.js\",\n\t\"./DaemonSet.js\": \"./example/chart.config/schema/DaemonSet.js\",\n\t\"./Deployment.js\": \"./example/chart.config/schema/Deployment.js\",\n\t\"./Endpoints.js\": \"./example/chart.config/schema/Endpoints.js\",\n\t\"./Ingress.js\": \"./example/chart.config/schema/Ingress.js\",\n\t\"./Namespace.js\": \"./example/chart.config/schema/Namespace.js\",\n\t\"./Role.js\": \"./example/chart.config/schema/Role.js\",\n\t\"./RoleBinding.js\": \"./example/chart.config/schema/RoleBinding.js\",\n\t\"./Secret.js\": \"./example/chart.config/schema/Secret.js\",\n\t\"./Service.js\": \"./example/chart.config/schema/Service.js\",\n\t\"./ServiceAccount.js\": \"./example/chart.config/schema/ServiceAccount.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tif(!__webpack_require__.o(map, req)) {\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn map[req];\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./example/chart.config/schema sync recursive ^\\\\.\\\\/.*\\\\.js$\";\n\n//# sourceURL=webpack:///./example/chart.config/schema_sync_^\\.\\/.*\\.js$?");
+eval("var map = {\n\t\"./ClusterRole.js\": \"./example/chart.config/schema/ClusterRole.js\",\n\t\"./ClusterRoleBinding.js\": \"./example/chart.config/schema/ClusterRoleBinding.js\",\n\t\"./ConfigMap.js\": \"./example/chart.config/schema/ConfigMap.js\",\n\t\"./DaemonSet.js\": \"./example/chart.config/schema/DaemonSet.js\",\n\t\"./Deployment.js\": \"./example/chart.config/schema/Deployment.js\",\n\t\"./Endpoints.js\": \"./example/chart.config/schema/Endpoints.js\",\n\t\"./Ingress.js\": \"./example/chart.config/schema/Ingress.js\",\n\t\"./Namespace.js\": \"./example/chart.config/schema/Namespace.js\",\n\t\"./Role.js\": \"./example/chart.config/schema/Role.js\",\n\t\"./RoleBinding.js\": \"./example/chart.config/schema/RoleBinding.js\",\n\t\"./Secret.js\": \"./example/chart.config/schema/Secret.js\",\n\t\"./Service.js\": \"./example/chart.config/schema/Service.js\",\n\t\"./ServiceAccount.js\": \"./example/chart.config/schema/ServiceAccount.js\",\n\t\"./index.js\": \"./example/chart.config/schema/index.js\"\n};\n\n\nfunction webpackContext(req) {\n\tvar id = webpackContextResolve(req);\n\treturn __webpack_require__(id);\n}\nfunction webpackContextResolve(req) {\n\tif(!__webpack_require__.o(map, req)) {\n\t\tvar e = new Error(\"Cannot find module '\" + req + \"'\");\n\t\te.code = 'MODULE_NOT_FOUND';\n\t\tthrow e;\n\t}\n\treturn map[req];\n}\nwebpackContext.keys = function webpackContextKeys() {\n\treturn Object.keys(map);\n};\nwebpackContext.resolve = webpackContextResolve;\nmodule.exports = webpackContext;\nwebpackContext.id = \"./example/chart.config/schema sync recursive ^\\\\.\\\\/.*\\\\.js$\";\n\n//# sourceURL=webpack:///./example/chart.config/schema_sync_^\\.\\/.*\\.js$?");
 
 /***/ }),
 
@@ -262,6 +284,17 @@ eval("module.exports = {\n  \"name\": {\n    type: 'string'\n  },\n  \"namespace
 
 /***/ }),
 
+/***/ "./example/chart.config/schema/index.js":
+/*!**********************************************!*\
+  !*** ./example/chart.config/schema/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = {\n  ClusterRole: __webpack_require__(/*! ./ClusterRole */ \"./example/chart.config/schema/ClusterRole.js\"),\n  ClusterRoleBinding: __webpack_require__(/*! ./ClusterRoleBinding */ \"./example/chart.config/schema/ClusterRoleBinding.js\"),\n  ConfigMap: __webpack_require__(/*! ./ConfigMap */ \"./example/chart.config/schema/ConfigMap.js\"),\n  DaemonSet: __webpack_require__(/*! ./DaemonSet */ \"./example/chart.config/schema/DaemonSet.js\"),\n  Deployment: __webpack_require__(/*! ./Deployment */ \"./example/chart.config/schema/Deployment.js\"),\n  Endpoints: __webpack_require__(/*! ./Endpoints */ \"./example/chart.config/schema/Endpoints.js\"),\n  Ingress: __webpack_require__(/*! ./Ingress */ \"./example/chart.config/schema/Ingress.js\"),\n  Namespace: __webpack_require__(/*! ./Namespace */ \"./example/chart.config/schema/Namespace.js\"),\n  Role: __webpack_require__(/*! ./Role */ \"./example/chart.config/schema/Role.js\"),\n  RoleBinding: __webpack_require__(/*! ./RoleBinding */ \"./example/chart.config/schema/RoleBinding.js\"),\n  Secret: __webpack_require__(/*! ./Secret */ \"./example/chart.config/schema/Secret.js\"),\n  Service: __webpack_require__(/*! ./Service */ \"./example/chart.config/schema/Service.js\"),\n  ServiceAccount: __webpack_require__(/*! ./ServiceAccount */ \"./example/chart.config/schema/ServiceAccount.js\")\n};\n\n//# sourceURL=webpack:///./example/chart.config/schema/index.js?");
+
+/***/ }),
+
 /***/ "./example/index.js":
 /*!**************************!*\
   !*** ./example/index.js ***!
@@ -336,6 +369,18 @@ eval("// CodeMirror, copyright (c) by Marijn Haverbeke and others\n// Distribute
 /***/ (function(module, exports) {
 
 eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./node_modules/codemirror/theme/material.css?");
+
+/***/ }),
+
+/***/ "./node_modules/prettify-js/index.js":
+/*!*******************************************!*\
+  !*** ./node_modules/prettify-js/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\n\n/**\n * JSON beautifier.\n *\n * @param data. Javascript Value that needs to converted to JSON string.\n * @param space. Default is 3. This is optional argument, Max is 10.\n * @return string.Formatted string that is easy to read on console/terminal.\n */\n\nmodule.exports = function (data, space) {\n\n    var spaces = space || 3;\n\n    return JSON.stringify(data, null, spaces);\n\n};\n\n\n\n\n//# sourceURL=webpack:///./node_modules/prettify-js/index.js?");
 
 /***/ }),
 

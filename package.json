@@ -1,6 +1,6 @@
 {
   "name": "rt-json-editor",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Plain JSON Editor",
   "main": "index.js",
   "scripts": {
@@ -55,6 +55,7 @@
   },
   "devDependencies": {
     "codemirror": "^5.46.0",
+    "prettify-js": "^1.0.1",
     "react-codemirror2": "^6.0.0"
   }
 }
