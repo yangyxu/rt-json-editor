@@ -49,7 +49,7 @@
             height: 22px;*/
   font-size: 14px;
   border-radius: 2px;
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
 }
 .rt-json-editor-field .editing-mode input:hover,
 .rt-json-editor-field .editing-mode select:hover {
