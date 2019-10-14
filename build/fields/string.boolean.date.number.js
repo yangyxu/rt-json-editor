@@ -177,7 +177,7 @@ module.exports = React.createClass({
     }
 
     return React.createElement("div", {
-      className: "rt-json-editor-field rt-json-editor-field-string " + (this.props.required ? 'required' : '')
+      className: "rt-json-editor-field rt-json-editor-field-string" + (this.props.required ? ' required' : '') + (this.props.hidden ? ' hidden' : '')
     }, !!this.state.editing ? React.createElement("div", {
       className: "field-warp string-editing editing-mode"
     }, React.createElement("div", {

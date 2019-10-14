@@ -270,6 +270,7 @@ var _array = React.createClass({
       }, "-"), React.createElement(_Type, {
         type: _type,
         value: item,
+        index: index,
         parent: this,
         fold: this.props.fold,
         schema: this.props.schema,

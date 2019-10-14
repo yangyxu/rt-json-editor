@@ -110,7 +110,7 @@ module.exports = React.createClass({
 		}
 
 		return (
-			<div className={"rt-json-editor-field rt-json-editor-field-string " + (this.props.required?'required':'')}>
+			<div className={"rt-json-editor-field rt-json-editor-field-string" + (this.props.required?' required':'') + (this.props.hidden?' hidden':'')}>
 				{
 					!!this.state.editing ? <div className="field-warp string-editing editing-mode">
 						<div className="meta-data">

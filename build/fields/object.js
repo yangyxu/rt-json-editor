@@ -172,6 +172,16 @@ var _object = React.createClass({
       this.__onKeyInputBlur(event);
     }
   },
+  __parseValue: function __parseValue(key) {
+    var _value = this.state.value[key];
+
+    if (Object.prototype.toString.call(_value, this).toLowerCase().split(' ')[1].replace(']', '') == 'function') {
+      _value = _value.call(this, this);
+      this.state.value[key] = _value;
+    }
+
+    return _value;
+  },
   render: function render() {
     var _this = this;
 
@@ -267,7 +277,7 @@ var _object = React.createClass({
           key: index,
           _key: key,
           parent: this,
-          value: this.state.value[key],
+          value: this.__parseValue(key),
           fold: this.props.fold,
           displayClosure: this.props.displayClosure,
           displayItemCount: this.props.displayItemCount,

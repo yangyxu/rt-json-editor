@@ -96,6 +96,15 @@ module.exports = React.createClass({
 				case "function":
 					this.state.value = eval(this.state.value);
 					break;
+				case "number":
+					this.state.value = (new Number(this.state.value)).valueOf();
+					break;
+				case "boolean":
+					this.state.value = (new Boolean(this.state.value)).valueOf();
+					break;
+				case "date":
+					this.state.value = (new Date(this.state.value)).toLocaleDateString();
+					break;
 			}
 		}
 
