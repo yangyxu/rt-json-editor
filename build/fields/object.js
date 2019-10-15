@@ -273,7 +273,9 @@ var _object = React.createClass({
           _Type = FIELDS[_item.type];
 
       if (_Type) {
-        return React.createElement(_Type, _extends({}, _item, {
+        return React.createElement(_Type, _extends({
+          editable: this.props.editable
+        }, _item, {
           key: index,
           _key: key,
           parent: this,

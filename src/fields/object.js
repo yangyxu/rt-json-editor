@@ -212,7 +212,7 @@ var _object = React.createClass({
 								var _item = this.state.schema[key],
 									_Type = FIELDS[_item.type];
 								if(_Type) {
-									return <_Type {..._item}
+									return <_Type editable={this.props.editable} {..._item}
 												key={index}
 												_key={key}
 												parent={this}

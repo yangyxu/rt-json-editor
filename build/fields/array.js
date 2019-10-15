@@ -273,6 +273,7 @@ var _array = React.createClass({
         index: index,
         parent: this,
         fold: this.props.fold,
+        editable: this.props.editable,
         schema: this.props.schema,
         displayClosure: this.props.displayClosure,
         displayItemCount: this.props.displayItemCount,
