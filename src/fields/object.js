@@ -157,6 +157,41 @@ var _object = React.createClass({
 
 		return _value;
 	},
+	__renderLabel: function (){
+		if(this.state._key){
+			return <div className="_key">
+				{
+					(this.state.editing && this.props.keyEditable) ? <input onKeyUp={this.__onKeyInputKeyUp} onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="_key-name">{this.props.label || this.state._key}</span>
+				}
+				<span className="_key-colon">:</span>
+			</div>;
+		} else if(this.props.label){
+			return <span className="label">{this.props.label}</span>;
+		}
+	},
+	validate: function (value, schemas){
+		var _schemas = schemas || this.props.schema,
+			_schema = null,
+			_value = null;
+		for(var key in _schemas){
+			_schema = _schemas[key];
+			_value = value[key];
+			if(_schema.required){
+				if(_schema.type == 'array'&& !(_value||[]).length){
+					return _schema;
+				}else if(_schema.type == 'object' && !Object.keys(_value||{}).length){
+					return _schema;
+				}else if((_schema.type == 'number'||_schema.type == 'boolean') && (_value==undefined||_value==null)){
+					return _schema;
+				}else if(!_value){
+					return _schema;
+				}
+			}
+			if(_schema.schema){
+				return this.validate(_value, _schema.schema);
+			}
+		}
+	},
 	render:function(){
 		var _btns = [];
 		if(this.props.editable !== false) {
@@ -181,17 +216,7 @@ var _object = React.createClass({
 				<div className="field-warp object-warp">
 					<div className="meta-data">
 						<span className="fold-icon" onClick={()=>this.setState({ fold: !this.state.fold })}><i className={"fas " + (this.state.fold?'fa-caret-right':'fa-caret-down')} /></span>
-						{
-							this.state._key && <div className="_key">
-								{
-									(this.state.editing && this.props.keyEditable) ? <input onKeyUp={this.__onKeyInputKeyUp} onBlur={this.__onKeyInputBlur} defaultValue={this.state._key} className="key-input" name="_key" type="text" /> : <span title={this.props.title} className="_key-name">{this.state._key}</span>
-								}
-								<span className="_key-colon">:</span>
-							</div>
-						}
-						{
-							this.props.label && <span className="label">{this.props.label}</span>
-						}
+						{this.__renderLabel()}
 						{
 							this.props.displayClosure && <span className="closure-start">{'{'}</span>
 						}

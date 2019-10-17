@@ -14,6 +14,21 @@ module.exports = React.createClass({
 			editing: false
 		};
 	},
+	__parseDataType: function (value){
+		switch(this.props.type){
+			case "object":
+			case "array":
+				return JSON.parse(value);
+			case "function":
+				return eval(value);
+			case "number":
+				return (new Number(value)).valueOf();
+			case "boolean":
+				return (new Boolean(value)).valueOf();
+			case "date":
+				return (new Date(value)).toLocaleDateString();
+		}
+	},
 	__onUpdate: function(){
 		var _prevKey = this.state._key,
 			_prevValue = this.state.value,
@@ -23,7 +38,7 @@ module.exports = React.createClass({
 			_key = this._keydom.value;
 		}
 		if(this._valuedom){
-			_value = this._valuedom.value;
+			_value = this.__parseDataType(this._valuedom.value);
 		}
 
 		this.setState({
@@ -56,14 +71,15 @@ module.exports = React.createClass({
 	},
 	__onInputKeyUp: function (event){
 		if(event.keyCode==13){
+			var _value = this.__parseDataType(event.target.value);
 			this.setState({
-				value: event.target.value,
+				value: _value,
 				editing: false
 			});
 			this.props.onChange && this.props.onChange({
 				key: this.state._key,
 				prevValue: this.state.value,
-				value: event.target.value
+				value: _value
 			}, this);
 		}
 	},
@@ -86,7 +102,12 @@ module.exports = React.createClass({
 				}
 			</select>;
 		}
-		return <input onKeyUp={this.__onInputKeyUp} ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value" type="text" />;
+		var _type = this.props.type || 'text';
+		if(_type=='string'){
+			_type = 'text';
+		}
+
+		return <input onKeyUp={this.__onInputKeyUp} ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value" type={_type} />;
 	},
 	__renderEditableKey: function (){
 		if(this.state._key){

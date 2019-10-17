@@ -60,12 +60,30 @@ module.exports = React.createClass({
       value: _input.value
     });
   },
+  __onKeyKeyUp: function __onKeyKeyUp(event) {
+    if (event.keyCode == 13) {
+      this.state._key = event.target.value;
+
+      this.__onCreate();
+    }
+  },
+  __onValueKeyUp: function __onValueKeyUp(event) {
+    if (event.keyCode == 13) {
+      this.state.value = event.target.value;
+
+      this.__onCreate();
+    }
+  },
   __renderValueInput: function __renderValueInput() {
     var _this = this;
 
     switch (this.state.type) {
       case "string":
         return React.createElement("input", {
+          ref: function ref(_ref) {
+            return _this._valuedom = _ref;
+          },
+          onKeyUp: this.__onValueKeyUp,
           value: this.state.value,
           onChange: function onChange(event) {
             return _this.setState({
@@ -79,6 +97,10 @@ module.exports = React.createClass({
 
       case "number":
         return React.createElement("input", {
+          ref: function ref(_ref2) {
+            return _this._valuedom = _ref2;
+          },
+          onKeyUp: this.__onValueKeyUp,
           value: this.state.value,
           onChange: function onChange(event) {
             return _this.setState({
@@ -92,6 +114,10 @@ module.exports = React.createClass({
 
       case "date":
         return React.createElement("input", {
+          ref: function ref(_ref3) {
+            return _this._valuedom = _ref3;
+          },
+          onKeyUp: this.__onValueKeyUp,
           value: this.state.value,
           onChange: function onChange(event) {
             return _this.setState({
@@ -142,7 +168,9 @@ module.exports = React.createClass({
   },
   __onCreate: function __onCreate() {
     if (this.state._key != undefined && !this.state._key) {
-      this._keydom.focus();
+      if (this._keydom) {
+        this._keydom.focus();
+      }
 
       return alert("The Key is required."), false;
     }
@@ -152,6 +180,10 @@ module.exports = React.createClass({
     }
 
     if (!this.state.value) {
+      if (this._valuedom) {
+        this._valuedom.focus();
+      }
+
       return alert("The Value is required."), false;
     } else {
       switch (this.state.type) {
@@ -183,7 +215,7 @@ module.exports = React.createClass({
   render: function render() {
     var _this2 = this;
 
-    return React.createElement("form", {
+    return React.createElement("div", {
       className: "rt-json-editor-object-add-item"
     }, React.createElement("span", {
       title: "CANCEL",
@@ -196,8 +228,9 @@ module.exports = React.createClass({
     }, React.createElement("span", {
       className: "label"
     }, "Key:"), React.createElement("input", {
-      ref: function ref(_ref) {
-        return _this2._keydom = _ref;
+      onKeyUp: this.__onKeyKeyUp,
+      ref: function ref(_ref4) {
+        return _this2._keydom = _ref4;
       },
       defaultValue: this.state._key,
       onChange: this.__onKeyChange,

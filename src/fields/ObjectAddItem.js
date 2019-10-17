@@ -50,14 +50,26 @@ module.exports = React.createClass({
 			value: _input.value
 		});
 	},
+	__onKeyKeyUp: function (event){
+		if(event.keyCode==13){
+			this.state._key = event.target.value;
+			this.__onCreate();
+		}
+	},
+	__onValueKeyUp: function (event){
+		if(event.keyCode==13){
+			this.state.value = event.target.value;
+			this.__onCreate();
+		}
+	},
 	__renderValueInput: function (){
 		switch(this.state.type){
 			case "string":
-				return <input value={this.state.value} onChange={(event)=>this.setState({ value: event.target.value })} className="input" name="value" type="text" />;
+				return <input ref={(ref)=>this._valuedom = ref} onKeyUp={this.__onValueKeyUp} value={this.state.value} onChange={(event)=>this.setState({ value: event.target.value })} className="input" name="value" type="text" />;
 			case "number":
-				return <input value={this.state.value} onChange={(event)=>this.setState({ value: event.target.value })} className="input" name="value" type="number" />;
+				return <input ref={(ref)=>this._valuedom = ref} onKeyUp={this.__onValueKeyUp} value={this.state.value} onChange={(event)=>this.setState({ value: event.target.value })} className="input" name="value" type="number" />;
 			case "date":
-				return <input value={this.state.value} onChange={(event)=>this.setState({ value: event.target.value })} className="input" name="value" type="date" />;
+				return <input ref={(ref)=>this._valuedom = ref} onKeyUp={this.__onValueKeyUp} value={this.state.value} onChange={(event)=>this.setState({ value: event.target.value })} className="input" name="value" type="date" />;
 			case "boolean":
 				return <Radio onChange={(data, index)=>this.setState({ value: data.value })} data={[{ label: 'True', value: true }, { label: 'False', value: false }]} style={{width: '100%'}} />;
 			case "object":
@@ -79,13 +91,18 @@ module.exports = React.createClass({
 	},
 	__onCreate: function (){
 		if(this.state._key != undefined && !this.state._key){
-			this._keydom.focus();
+			if(this._keydom){
+				this._keydom.focus();
+			}
 			return alert("The Key is required."), false;
 		}
 		if(!this.state.type) {
 			return alert("The Type is required."), false;
 		}
 		if(!this.state.value) {
+			if(this._valuedom){
+				this._valuedom.focus();
+			}
 			return alert("The Value is required."), false;
 		}else{
 			switch(this.state.type){
@@ -112,12 +129,12 @@ module.exports = React.createClass({
 	},
 	render: function(){
 		return (
-			<form className="rt-json-editor-object-add-item">
+			<div className="rt-json-editor-object-add-item">
 				<span title="CANCEL" onClick={this.props.onCancel} className="form-btn cancel"><i className="fa fa-times-circle" /></span>
 				{
 					(this.state._key != null) && <div className="form-item">
 						<span className="label">Key:</span>
-						<input ref={(ref)=>this._keydom = ref} defaultValue={this.state._key} onChange={this.__onKeyChange} className="input" name="_key" type="text" />
+						<input onKeyUp={this.__onKeyKeyUp} ref={(ref)=>this._keydom = ref} defaultValue={this.state._key} onChange={this.__onKeyChange} className="input" name="_key" type="text" />
 					</div>
 				}
 				<div className="form-item">
@@ -139,7 +156,7 @@ module.exports = React.createClass({
 				<div className="form-btns">
 					<span onClick={this.__onCreate} className="form-btn submit"><i className="fa fa-plus" />Create</span>
 				</div>
-			</form>
+			</div>
 		);
 	}
 });
