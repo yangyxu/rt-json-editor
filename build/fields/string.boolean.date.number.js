@@ -37,6 +37,9 @@ module.exports = React.createClass({
 
       case "date":
         return new Date(value).toLocaleDateString();
+
+      default:
+        return value;
     }
   },
   __onUpdate: function __onUpdate() {
