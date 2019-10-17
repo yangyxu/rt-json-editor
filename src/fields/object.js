@@ -175,6 +175,7 @@ var _object = React.createClass({
 			_value = null;
 		for(var key in _schemas){
 			_schema = _schemas[key];
+			_schema.key = key;
 			_value = value[key];
 			if(_schema.required){
 				if(_schema.type == 'array'&& !(_value||[]).length){

@@ -212,6 +212,7 @@ var _object = React.createClass({
 
     for (var key in _schemas) {
       _schema = _schemas[key];
+      _schema.key = key;
       _value = value[key];
 
       if (_schema.required) {
