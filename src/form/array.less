@@ -1,0 +1,29 @@
+.rt-json-editor-form-array {
+    padding: 3px 6px;
+    border-radius: 5px;
+    border: 1px solid #e2dfdf;
+    margin: 2px 0px;
+    &.fold{
+        &>.object-warp>.array-values{
+            display: none;
+        }
+    }
+    &.unfold{
+        &>.object-warp>.array-values{
+            display: block;
+            /*border-left: 1px solid #ccced0;padding-left: 20px;*/
+        }
+    }
+
+    .array-values{
+        .array-value-item{
+            background-color: #FFF;
+            margin: 4px 0px;
+            border-radius: 5px;
+            .separator{
+                padding-right: 2px;
+                display: none;
+            }
+        }
+    }
+}

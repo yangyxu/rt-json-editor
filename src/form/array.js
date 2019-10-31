@@ -160,7 +160,7 @@ var _array = React.createClass({
 			_btns.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
 		return (
-			<div className={"rt-json-editor-field rt-json-editor-field-object rt-json-editor-field-array " + (this.state.fold?' fold':' unfold') + (this.props.required?' required':'')}>
+			<div className={"rt-json-editor-form rt-json-editor-form-array " + (this.state.fold?' fold':' unfold') + (this.props.required?' required':'')}>
 				{
 					this.state.adding && this.__renderEditor()
 				}
@@ -191,30 +191,33 @@ var _array = React.createClass({
 					{
 						this.__renderDesc()
 					}
-					<div className="array-values">
-						{
-							this.state.value.map(function (item, index){
-								var _type = Object.prototype.toString.call(item).toLowerCase().split(' ')[1].replace(']', ''),
-									_Type = FIELDS[_type];
-								return <div key={index.toString() + Math.random().toString()} className="array-value-item">
-									<div className="separator">-</div>
-									<_Type type={_type}
-										value={item}
-										index={index}
-										parent={this}
-										pre={this.props.pre}
-										fold={this.props.fold}
-										editable={this.props.editable}
-										schema={this.props.schema}
-										displayClosure={this.props.displayClosure}
-										displayItemCount={this.props.displayItemCount}
-										onValueInitial={(key, value, child)=>this.__onChildValueInitial(key, value, child, index)}
-										onChange={(data, child)=>this.__onChildChange(data, child, index)}
-										onRemove={(key, child)=>this.__onChildRemove(key, child, index)} />
-								</div>
-							}.bind(this))
-						}
-					</div>
+					{
+						!!this.state.value.length && <div className="array-values">
+							{
+								this.state.value.map(function (item, index){
+									var _type = Object.prototype.toString.call(item).toLowerCase().split(' ')[1].replace(']', ''),
+										_Type = FIELDS[_type];
+									return <div key={index.toString() + Math.random().toString()} className="array-value-item">
+										<div className="separator">-</div>
+										<_Type type={_type}
+											value={item}
+											index={index}
+											parent={this}
+											removal={this.props.childRemoval==undefined?true:this.props.childRemoval}
+											pre={this.props.pre}
+											fold={this.props.fold}
+											editable={this.props.editable}
+											schema={this.props.schema}
+											displayClosure={this.props.displayClosure}
+											displayItemCount={this.props.displayItemCount}
+											onValueInitial={(key, value, child)=>this.__onChildValueInitial(key, value, child, index)}
+											onChange={(data, child)=>this.__onChildChange(data, child, index)}
+											onRemove={(key, child)=>this.__onChildRemove(key, child, index)} />
+									</div>
+								}.bind(this))
+							}
+						</div>
+					}
 					{
 						this.props.displayClosure && <span className="closure-end">{']'}</span>
 					}

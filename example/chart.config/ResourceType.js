@@ -1,6 +1,6 @@
 require('./ResourceType.less');
 var React = require('react');
-var FIELDS = require('../../src/index.js');
+var FIELDS = require('../../src/index.js').form;
 require('codemirror/lib/codemirror.css');
 require('codemirror/lib/codemirror.js');
 require('codemirror/theme/material.css');

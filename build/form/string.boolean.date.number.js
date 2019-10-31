@@ -10,14 +10,14 @@ module.exports = React.createClass({
   displayName: "exports",
   getDefaultProps: function getDefaultProps() {
     return {
-      removal: false
+      removal: true
     };
   },
   getInitialState: function getInitialState() {
     return {
       _key: this.props._key,
       value: this.props.value,
-      editing: false
+      editing: this.props.editing || false
     };
   },
   __parseDataType: function __parseDataType(value) {
@@ -33,7 +33,7 @@ module.exports = React.createClass({
         return new Number(value).valueOf();
 
       case "boolean":
-        return new Boolean(value).valueOf();
+        return new Boolean(+value).valueOf();
 
       case "date":
         return new Date(value).toLocaleDateString();
@@ -74,7 +74,7 @@ module.exports = React.createClass({
   __renderValue: function __renderValue() {
     switch (this.props.type) {
       case "string":
-        if (this.props.pre) {
+        if (this.props.pre || this.props.textarea) {
           return React.createElement("pre", {
             className: "field-value"
           }, "\"", this.state.value, "\"");
@@ -102,44 +102,79 @@ module.exports = React.createClass({
   },
   __onInputKeyUp: function __onInputKeyUp(event) {
     if (event.keyCode == 13) {
-      var _value = this.__parseDataType(event.target.value);
-
-      this.setState({
-        value: _value,
-        editing: false
-      });
-      this.props.onChange && this.props.onChange({
-        key: this.state._key,
-        prevValue: this.state.value,
-        value: _value
-      }, this, this.props.parent);
+      this.__doInputChange(event);
     }
+  },
+  __onKeyInputBlur: function __onKeyInputBlur() {
+    this.__doKeyInputChange(event);
+  },
+  __onKeyInputKeyUp: function __onKeyInputKeyUp(event) {
+    if (event.keyCode == 13) {
+      this.__doKeyInputChange(event);
+    }
+  },
+  __doKeyInputChange: function __doKeyInputChange(event) {
+    var _key = event.target.value;
+    var _prevKey = this.state._key;
+    this.setState({
+      _key: _key,
+      editing: false
+    });
+    this.props.onChange && this.props.onChange({
+      prevKey: _prevKey,
+      key: _key,
+      value: this.state.value
+    }, this, this.props.parent);
+  },
+  __onInputBlur: function __onInputBlur() {
+    this.__doInputChange(event);
+  },
+  __doInputChange: function __doInputChange(event) {
+    var _value = this.__parseDataType(event.target.value);
+
+    this.setState({
+      value: _value,
+      editing: false
+    });
+    this.props.onChange && this.props.onChange({
+      key: this.state._key,
+      prevValue: this.state.value,
+      value: _value
+    }, this, this.props.parent);
   },
   __renderInput: function __renderInput() {
     var _this = this;
 
     if (this.props.type == "boolean") {
       return React.createElement("select", {
+        onChange: this.__doInputChange,
         ref: function ref(dom) {
           return _this._valuedom = dom;
         },
         required: true,
-        defaultValue: this.state.value
-      }, [true, false].map(function (item, index) {
+        value: this.state.value
+      }, [{
+        label: 'True',
+        value: true
+      }, {
+        label: 'False',
+        value: false
+      }].map(function (item, index) {
         return React.createElement("option", {
           key: index,
-          value: item
-        }, item.toString());
+          value: +item.value
+        }, item.label);
       }));
     }
 
     if (this.props.values) {
       return React.createElement("select", {
+        onChange: this.__doInputChange,
         ref: function ref(dom) {
           return _this._valuedom = dom;
         },
         required: true,
-        defaultValue: this.state.value
+        value: this.state.value
       }, this.props.values.map(function (item, index) {
         return React.createElement("option", {
           key: index,
@@ -156,7 +191,7 @@ module.exports = React.createClass({
 
     if (this.props.pre || this.props.textarea) {
       return React.createElement("textarea", {
-        onKeyUp: this.__onInputKeyUp,
+        onBlur: this.__onInputBlur,
         ref: function ref(dom) {
           return _this._valuedom = dom;
         },
@@ -167,6 +202,7 @@ module.exports = React.createClass({
     }
 
     return React.createElement("input", {
+      onBlur: this.__onInputBlur,
       onKeyUp: this.__onInputKeyUp,
       ref: function ref(dom) {
         return _this._valuedom = dom;
@@ -184,6 +220,8 @@ module.exports = React.createClass({
       return !!this.props.required || !this.props.keyEditable ? React.createElement("span", {
         className: "field-key"
       }, this.props.label || this.state._key) : React.createElement("input", {
+        onBlur: this.__onKeyInputBlur,
+        onKeyUp: this.__onKeyInputKeyUp,
         ref: function ref(dom) {
           return _this2._keydom = dom;
         },
@@ -198,7 +236,9 @@ module.exports = React.createClass({
     if (this.props.desc) {
       return React.createElement("div", {
         className: "field-desc"
-      }, this.props.desc);
+      }, React.createElement("i", {
+        className: "fa fa-info-circle"
+      }), this.props.desc);
     }
   },
   validate: function validate() {
@@ -247,7 +287,7 @@ module.exports = React.createClass({
     }
 
     return React.createElement("div", {
-      className: "rt-json-editor-field rt-json-editor-field-string" + (this.props.required ? ' required' : '') + (this.props.hidden ? ' hidden' : '') + ' ' + (this.props.className || ''),
+      className: "rt-json-editor-form rt-json-editor-form-string" + (this.props.required ? ' required' : '') + (this.props.hidden ? ' hidden' : '') + ' ' + (this.props.className || ''),
       style: this.props.style
     }, !!this.state.editing ? React.createElement("div", {
       className: "field-warp string-editing editing-mode"
@@ -269,7 +309,7 @@ module.exports = React.createClass({
       },
       title: "CANCEL",
       className: "icon-btn far fa-times-circle"
-    }))), this.__renderDesc()) : React.createElement("div", {
+    })))) : React.createElement("div", {
       className: "field-warp " + (this.props.type + "-warp")
     }, React.createElement("div", {
       className: "meta-data"
@@ -280,6 +320,6 @@ module.exports = React.createClass({
       className: "field-colon"
     }, ":"), this.__renderValue(), React.createElement(ItemToolBar, {
       items: _toolbars
-    })), this.__renderDesc()));
+    }))), this.__renderDesc());
   }
 });

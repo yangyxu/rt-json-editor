@@ -58,7 +58,6 @@ var _object = React.createClass({
     }
   },
   __joinValueAndSchema: function __joinValueAndSchema(value, schema) {
-    //var _values = Object.assign({}, value);
     var _values = value;
 
     if (_values == undefined) {
@@ -90,7 +89,7 @@ var _object = React.createClass({
   __onCreateSubmit: function __onCreateSubmit(data) {
     data.updated = true;
     this.state.value[data._key] = data.value;
-    this.state.schema[data._key] = data;
+    this.state.schema[data._key] = Object.assign({}, data);
     this.state.adding = false;
     this.forceUpdate();
     this.props.onChange && this.props.onChange(data, this);
@@ -229,6 +228,7 @@ var _object = React.createClass({
   render: function render() {
     var _this = this;
 
+    var _size = Object.keys(this.state.value).length;
     var _btns = [];
 
     if (this.props.editable !== false) {
@@ -262,7 +262,7 @@ var _object = React.createClass({
     }
 
     return React.createElement("div", {
-      className: "rt-json-editor-field rt-json-editor-field-object " + (this.state.fold ? 'fold' : 'unfold')
+      className: "rt-json-editor-form rt-json-editor-form-object " + (this.state.fold ? 'fold' : 'unfold')
     }, this.state.adding && React.createElement("div", {
       className: "adding-form-container"
     }, React.createElement(ObjectAddItem, {
@@ -292,7 +292,7 @@ var _object = React.createClass({
       }
     }, "..."), this.props.displayItemCount && React.createElement("span", {
       className: "item-count"
-    }, "Object{" + Object.keys(this.state.value).length + "}"), this.props.editable && React.createElement(ItemToolBar, {
+    }, "Object{" + _size + "}"), this.props.editable && React.createElement(ItemToolBar, {
       items: _btns
     })), this.__renderDesc(), React.createElement("div", {
       className: "object-key-value-pair"

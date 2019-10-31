@@ -17,6 +17,7 @@ var _object = React.createClass({
 	},
 	getInitialState: function () {
 		var _data = this.__joinValueAndSchema(this.props.value, this.props.schema);
+		
 		return {
 			_key: this.props._key,
 			value: _data.value,
@@ -44,7 +45,6 @@ var _object = React.createClass({
 		}
 	},
 	__joinValueAndSchema: function (value, schema){
-		//var _values = Object.assign({}, value);
 		var _values = value;
 		if(_values == undefined){
 			_values = {};
@@ -72,7 +72,7 @@ var _object = React.createClass({
 	__onCreateSubmit: function (data){
 		data.updated = true;
 		this.state.value[data._key] = data.value;
-		this.state.schema[data._key] = data;
+		this.state.schema[data._key] = Object.assign({}, data);
 		this.state.adding = false;
 		this.forceUpdate();
 		this.props.onChange && this.props.onChange(data, this);
@@ -188,6 +188,7 @@ var _object = React.createClass({
 		}
 	},
 	render:function(){
+		var _size = Object.keys(this.state.value).length;
 		var _btns = [];
 		if(this.props.editable !== false) {
 			_btns.push({ icon: 'fa-plus', onClick: ()=>this.setState({ adding: true, fold: false }) });
@@ -202,7 +203,7 @@ var _object = React.createClass({
 		}
 
 		return (
-			<div className={"rt-json-editor-field rt-json-editor-field-object " + (this.state.fold?'fold':'unfold')}>
+			<div className={"rt-json-editor-form rt-json-editor-form-object " + (this.state.fold?'fold':'unfold')}>
 				{
 					this.state.adding && <div className="adding-form-container">
 						<ObjectAddItem onSubmit={this.__onCreateSubmit} onCancel={this.__onCreateCancel} />
@@ -219,7 +220,7 @@ var _object = React.createClass({
 							!!this.state.fold && <span className="dots" onClick={()=>this.setState({ fold: !this.state.fold })}>...</span>
 						}
 						{
-							this.props.displayItemCount && <span className="item-count">{"Object{" + Object.keys(this.state.value).length + "}"}</span>
+							this.props.displayItemCount && <span className="item-count">{"Object{" + _size + "}"}</span>
 						}
 						{
 							this.props.editable && <ItemToolBar items={_btns} />

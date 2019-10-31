@@ -201,7 +201,7 @@ var _array = React.createClass({
     }
 
     return React.createElement("div", {
-      className: "rt-json-editor-field rt-json-editor-field-object rt-json-editor-field-array " + (this.state.fold ? ' fold' : ' unfold') + (this.props.required ? ' required' : '')
+      className: "rt-json-editor-form rt-json-editor-form-array " + (this.state.fold ? ' fold' : ' unfold') + (this.props.required ? ' required' : '')
     }, this.state.adding && this.__renderEditor(), React.createElement("div", {
       className: "field-warp object-warp"
     }, React.createElement("div", {
@@ -241,7 +241,7 @@ var _array = React.createClass({
       className: "item-count"
     }, "Array[", this.state.value.length, "]"), React.createElement(ItemToolBar, {
       items: _btns
-    })), this.__renderDesc(), React.createElement("div", {
+    })), this.__renderDesc(), !!this.state.value.length && React.createElement("div", {
       className: "array-values"
     }, this.state.value.map(function (item, index) {
       var _this2 = this;
@@ -259,6 +259,7 @@ var _array = React.createClass({
         value: item,
         index: index,
         parent: this,
+        removal: this.props.childRemoval == undefined ? true : this.props.childRemoval,
         pre: this.props.pre,
         fold: this.props.fold,
         editable: this.props.editable,

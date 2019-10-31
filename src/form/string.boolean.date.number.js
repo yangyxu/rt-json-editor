@@ -4,14 +4,14 @@ var ItemToolBar = require('./ItemToolBar.js');
 module.exports = React.createClass({
 	getDefaultProps: function () {
 		return {
-			removal: false
+			removal: true
 		};
 	},
 	getInitialState: function () {
 		return {
 			_key: this.props._key,
 			value: this.props.value,
-			editing: false
+			editing: this.props.editing || false
 		};
 	},
 	__parseDataType: function (value){
@@ -24,7 +24,7 @@ module.exports = React.createClass({
 			case "number":
 				return (new Number(value)).valueOf();
 			case "boolean":
-				return (new Boolean(value)).valueOf();
+				return (new Boolean(+value)).valueOf();
 			case "date":
 				return (new Date(value)).toLocaleDateString();
 			default: 
@@ -62,7 +62,7 @@ module.exports = React.createClass({
 	__renderValue: function (){
 		switch(this.props.type){
 			case "string":
-				if(this.props.pre){
+				if(this.props.pre || this.props.textarea){
 					return <pre className="field-value">"{this.state.value}"</pre>;
 				}
 				return <span className="field-value">"{this.state.value}"</span>;
@@ -76,30 +76,62 @@ module.exports = React.createClass({
 	},
 	__onInputKeyUp: function (event){
 		if(event.keyCode==13){
-			var _value = this.__parseDataType(event.target.value);
-			this.setState({
-				value: _value,
-				editing: false
-			});
-			this.props.onChange && this.props.onChange({
-				key: this.state._key,
-				prevValue: this.state.value,
-				value: _value
-			}, this, this.props.parent);
+			this.__doInputChange(event);
 		}
+	},
+	__onKeyInputBlur: function (){
+		this.__doKeyInputChange(event);
+	},
+	__onKeyInputKeyUp: function (event){
+		if(event.keyCode==13){
+			this.__doKeyInputChange(event);
+		}
+	},
+	__doKeyInputChange: function (event){
+		var _key = event.target.value;
+		var _prevKey = this.state._key;
+		this.setState({
+			_key: _key,
+			editing: false
+		});
+		
+		this.props.onChange && this.props.onChange({
+			prevKey: _prevKey,
+			key: _key,
+			value: this.state.value
+		}, this, this.props.parent);
+	},
+	__onInputBlur: function (){
+		this.__doInputChange(event);
+	},
+	__doInputChange: function (event){
+		var _value = this.__parseDataType(event.target.value);
+	
+		this.setState({
+			value: _value,
+			editing: false
+		});
+		this.props.onChange && this.props.onChange({
+			key: this.state._key,
+			prevValue: this.state.value,
+			value: _value
+		}, this, this.props.parent);
 	},
 	__renderInput: function (){
 		if(this.props.type == "boolean") {
-			return <select ref={(dom)=>this._valuedom = dom} required defaultValue={this.state.value}>
+			return <select onChange={this.__doInputChange} ref={(dom)=>this._valuedom = dom} required value={this.state.value}>
 				{
-					[true, false].map(function (item, index){
-						return <option key={index} value={item}>{item.toString()}</option>;
+					[
+						{ label: 'True', value: true },
+						{ label: 'False', value: false }
+					].map(function (item, index){
+						return <option key={index} value={+item.value}>{item.label}</option>;
 					})
 				}
 			</select>;
 		}
 		if(this.props.values){
-			return <select ref={(dom)=>this._valuedom = dom} required defaultValue={this.state.value}>
+			return <select onChange={this.__doInputChange} ref={(dom)=>this._valuedom = dom} required value={this.state.value}>
 				{
 					this.props.values.map(function (item, index){
 						return <option key={index} value={item}>{item}</option>;
@@ -112,21 +144,21 @@ module.exports = React.createClass({
 			_type = 'text';
 		}
 		if(this.props.pre || this.props.textarea){
-			return <textarea onKeyUp={this.__onInputKeyUp} ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value"  />
+			return <textarea onBlur={this.__onInputBlur} ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value"  />
 		}
 
-		return <input onKeyUp={this.__onInputKeyUp} ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value" type={_type} />;
+		return <input onBlur={this.__onInputBlur} onKeyUp={this.__onInputKeyUp} ref={(dom)=>this._valuedom = dom} defaultValue={this.state.value} className="input" name="value" type={_type} />;
 	},
 	__renderEditableKey: function (){
 		if(this.state._key){
 			return (!!this.props.required || !this.props.keyEditable) ? <span className="field-key">
 				{this.props.label || this.state._key}
-			</span> : <input ref={(dom)=>this._keydom = dom} className="input" defaultValue={this.state._key} name="_key" type="text" />;
+			</span> : <input onBlur={this.__onKeyInputBlur} onKeyUp={this.__onKeyInputKeyUp} ref={(dom)=>this._keydom = dom} className="input" defaultValue={this.state._key} name="_key" type="text" />;
 		}
 	},
 	__renderDesc: function (){
 		if(this.props.desc){
-			return <div className="field-desc">{this.props.desc}</div>;
+			return <div className="field-desc"><i className="fa fa-info-circle" />{this.props.desc}</div>;
 		}
 	},
 	validate: function (){
@@ -158,9 +190,8 @@ module.exports = React.createClass({
 			_toolbars.push({ icon: 'fa-trash', onClick: this.__onRemove });
 		}
 		
-
 		return (
-			<div className={"rt-json-editor-field rt-json-editor-field-string" + (this.props.required?' required':'') + (this.props.hidden?' hidden':'') + ' ' + (this.props.className||'')} style={this.props.style}>
+			<div className={"rt-json-editor-form rt-json-editor-form-string" + (this.props.required?' required':'') + (this.props.hidden?' hidden':'') + ' ' + (this.props.className||'')} style={this.props.style}>
 				{
 					!!this.state.editing ? <div className="field-warp string-editing editing-mode">
 						<div className="meta-data">
@@ -176,7 +207,6 @@ module.exports = React.createClass({
 								<i onClick={()=>this.setState({ editing: false })} title="CANCEL" className="icon-btn far fa-times-circle" />
 							</span>
 						</div>
-						{this.__renderDesc()}
 					</div> : <div className={"field-warp " + (this.props.type + "-warp")}>
 						<div className="meta-data">
 							{
@@ -188,9 +218,9 @@ module.exports = React.createClass({
 							{this.__renderValue()}
 							<ItemToolBar items={_toolbars} />
 						</div>
-						{this.__renderDesc()}
 					</div>
 				}
+				{this.__renderDesc()}
 			</div>
 		);
 	}
