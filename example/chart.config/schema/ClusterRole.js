@@ -1,4 +1,23 @@
 module.exports = {
+    "value": [
+        {
+            key: 'value', 
+            type: 'string' 
+        },
+        {
+            key: 'valueForm',
+            type: 'object',
+            schema: {
+                secretKeyRef: {
+                    type: 'object',
+                    schema: {
+                        key: { value: 'AuthToken', type: 'string' },
+                        name: { value: 'platform-secret', type: 'string' }
+                    }
+                }
+            }
+        }
+    ],
     "name": {
         type: 'string',
         label: 'Name',

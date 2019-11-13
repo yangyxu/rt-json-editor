@@ -2,6 +2,7 @@ require('./object.less');
 var React = require('react');
 var ItemToolBar = require('./ItemToolBar.js');
 var ObjectAddItem = require('./ObjectAddItem.js');
+var Dynamic = require('./dynamic');
 
 var _object = React.createClass({
 	getDefaultProps: function () {
@@ -245,6 +246,21 @@ var _object = React.createClass({
 												onValueInitial={this.__onChildValueInitial}
 												onChange={this.__onChildChange}
 												onRemove={this.__onChildRemove} />;
+								}else{
+									if(Object.prototype.toString.call(_item)== '[object Array]'){
+										return <Dynamic editable={this.props.editable} keys={_item}
+													key={index}
+													_key={key}
+													parent={this}
+													value={this.__parseValue(key)}
+													pre={this.props.pre}
+													fold={this.props.fold}
+													displayClosure={this.props.displayClosure}
+													displayItemCount={this.props.displayItemCount}
+													onValueInitial={this.__onChildValueInitial}
+													onChange={this.__onChildChange}
+													onRemove={this.__onChildRemove} />;
+									}
 								}
 							}.bind(this))
 						}

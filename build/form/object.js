@@ -10,6 +10,8 @@ var ItemToolBar = require('./ItemToolBar.js');
 
 var ObjectAddItem = require('./ObjectAddItem.js');
 
+var Dynamic = require('./dynamic');
+
 var _object = React.createClass({
   displayName: "_object",
   getDefaultProps: function getDefaultProps() {
@@ -316,6 +318,24 @@ var _object = React.createClass({
           onChange: this.__onChildChange,
           onRemove: this.__onChildRemove
         }));
+      } else {
+        if (Object.prototype.toString.call(_item) == '[object Array]') {
+          return React.createElement(Dynamic, {
+            editable: this.props.editable,
+            keys: _item,
+            key: index,
+            _key: key,
+            parent: this,
+            value: this.__parseValue(key),
+            pre: this.props.pre,
+            fold: this.props.fold,
+            displayClosure: this.props.displayClosure,
+            displayItemCount: this.props.displayItemCount,
+            onValueInitial: this.__onChildValueInitial,
+            onChange: this.__onChildChange,
+            onRemove: this.__onChildRemove
+          });
+        }
       }
     }.bind(this))), this.props.displayClosure && React.createElement("span", {
       className: "closure-end"
