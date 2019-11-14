@@ -11,8 +11,13 @@ module.exports = React.createClass({
 		return {
 			_key: this.props._key,
 			value: this.props.value,
-			valueSchema: this.__matchItem(this.props.keys, this.props._key)
+			valueSchema: null
 		};
+	},
+	componentDidMount: function (){
+		this.setState({
+			valueSchema: this.__matchItem(this.props.keys, this.state._key)
+		});
 	},
 	__matchItem: function (data, key){
 		for(var i = 0, _len = data.length; i < _len; i++){

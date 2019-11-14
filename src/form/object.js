@@ -18,14 +18,14 @@ var _object = React.createClass({
 	},
 	getInitialState: function () {
 		var _data = this.__joinValueAndSchema(this.props.value, this.props.schema);
-		
 		return {
 			_key: this.props._key,
 			value: _data.value,
 			schema: _data.schema,
 			fold: this.props.fold,
 			adding: false,
-			editing: false
+			editing: false,
+			optionKeys: _data.optionKeys
 		};
 	},
 	__getSchemaInitialValue: function (schema){
@@ -46,28 +46,45 @@ var _object = React.createClass({
 		}
 	},
 	__joinValueAndSchema: function (value, schema){
-		var _values = value;
+		var _values = value,
+			_options = {},
+			_optionKeys = {};
 		if(_values == undefined){
 			_values = {};
 			this.props.onValueInitial && this.props.onValueInitial(this.props._key, _values, this);
 		}
 		var _schema = Object.assign({}, schema);
-		for(var key in _values){
-			if(_schema[key] == undefined){
-				_schema[key] = {
-					type: Object.prototype.toString.call(_values[key], this).toLowerCase().split(' ')[1].replace(']', '')
-				}
+		for(var key in _schema) {
+			if(Object.prototype.toString.call(_schema[key])== '[object Array]'){
+				_schema[key].forEach(function (option, index){
+					option.originalKey = key;
+					_options[option.key] = option;
+				})
 			}
 		}
+		
+		for(var key in _values){
+			if(_options[key]){
+				_optionKeys[_options[key].originalKey] = key;
+			} else {
+				if(_schema[key] == undefined){
+					_schema[key] = {
+						type: Object.prototype.toString.call(_values[key], this).toLowerCase().split(' ')[1].replace(']', '')
+					}
+				}
+			} 
+		}
+
 		for(var key in _schema) {
-			if(_values[key] == undefined){
+			if(_values[key] == undefined && !_options[key]){
 				_values[key] = this.__getSchemaInitialValue(_schema[key]);
 			}
 		}
 
 		return {
 			value: _values,
-			schema: _schema
+			schema: _schema,
+			optionKeys: _optionKeys
 		}
 	},
 	__onCreateSubmit: function (data){
@@ -93,8 +110,11 @@ var _object = React.createClass({
 		if (window.confirm("Do you really want to delete the key?")) { 
 			this.state.value[key] = null;
 			this.state.schema[key] = null;
+			this.props.schema[key] = null;
 			delete this.state.value[key];
 			delete this.state.schema[key];
+			delete this.props.schema[key];
+
 			this.forceUpdate();
 			this.props.onChange && this.props.onChange(key, this);
 		}
@@ -164,7 +184,7 @@ var _object = React.createClass({
 		}
 	},
 	validate: function (values, schemas){
-		var _schemas = schemas || this.props.schema || {},
+		var _schemas = schemas || this.state.schema || {},
 			_values = values || this.state.value || {},
 			_schema = null,
 			_value = null;
@@ -248,11 +268,12 @@ var _object = React.createClass({
 												onRemove={this.__onChildRemove} />;
 								}else{
 									if(Object.prototype.toString.call(_item)== '[object Array]'){
+										var _key = this.state.optionKeys[key] || key;
 										return <Dynamic editable={this.props.editable} keys={_item}
 													key={index}
-													_key={key}
+													_key={_key}
 													parent={this}
-													value={this.__parseValue(key)}
+													value={this.__parseValue(_key)}
 													pre={this.props.pre}
 													fold={this.props.fold}
 													displayClosure={this.props.displayClosure}
