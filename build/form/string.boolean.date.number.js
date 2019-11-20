@@ -148,6 +148,18 @@ module.exports = React.createClass({
       value: _value
     }, this, this.props.parent);
   },
+  __valueItemRender: function __valueItemRender(item, index) {
+    var _return = this.props.valueRender && this.props.valueRender(item, index);
+
+    if (_return !== undefined) {
+      return _return;
+    }
+
+    return React.createElement("option", {
+      key: index,
+      value: +item.value
+    }, item.label);
+  },
   __renderInput: function __renderInput() {
     var _this = this;
 
@@ -166,10 +178,7 @@ module.exports = React.createClass({
         label: 'False',
         value: false
       }].map(function (item, index) {
-        return React.createElement("option", {
-          key: index,
-          value: +item.value
-        }, item.label);
+        return this.__valueItemRender(item, index);
       }));
     }
 
@@ -186,7 +195,7 @@ module.exports = React.createClass({
           key: index,
           value: item
         }, item);
-      }));
+      }.bind(this)));
     }
 
     var _type = this.props.type || 'text';

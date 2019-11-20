@@ -123,6 +123,13 @@ module.exports = React.createClass({
 			value: _value
 		}, this, this.props.parent);
 	},
+	__valueItemRender: function (item, index){
+		var _return = this.props.valueRender && this.props.valueRender(item, index);
+		if(_return !== undefined) {
+			return _return;
+		}
+		return <option key={index} value={+item.value}>{item.label}</option>;
+	},
 	__renderInput: function (){
 		if(this.props.type == "boolean") {
 			return <select onChange={this.__doInputChange} ref={(dom)=>this._valuedom = dom} required value={this.state.value}>
@@ -131,7 +138,7 @@ module.exports = React.createClass({
 						{ label: 'True', value: true },
 						{ label: 'False', value: false }
 					].map(function (item, index){
-						return <option key={index} value={+item.value}>{item.label}</option>;
+						return this.__valueItemRender(item, index);
 					})
 				}
 			</select>;
@@ -141,7 +148,7 @@ module.exports = React.createClass({
 				{
 					this.state.values.map(function (item, index){
 						return <option key={index} value={item}>{item}</option>;
-					})
+					}.bind(this))
 				}
 			</select>;
 		}
