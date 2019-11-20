@@ -17,7 +17,7 @@ module.exports = React.createClass({
     return {
       _key: this.props._key,
       value: this.props.value,
-      values: this.props.values || [],
+      values: this.props.values,
       editing: this.props.editing || false
     };
   },
@@ -138,6 +138,9 @@ module.exports = React.createClass({
   __doInputChange: function __doInputChange(event) {
     var _value = this.__parseDataType(event.target.value);
 
+    this.__onValueChange(_value);
+  },
+  __onValueChange: function __onValueChange(_value) {
     this.setState({
       value: _value,
       editing: false
@@ -182,7 +185,13 @@ module.exports = React.createClass({
       }));
     }
 
-    if (this.state.values) {
+    if (this.state.values && this.state.values.map) {
+      var _return = this.props.valuesRender && this.props.valuesRender(this.state.value, this.state.values, this);
+
+      if (_return !== undefined) {
+        return _return;
+      }
+
       return React.createElement("select", {
         onChange: this.__doInputChange,
         ref: function ref(dom) {

@@ -11,7 +11,7 @@ module.exports = React.createClass({
 		return {
 			_key: this.props._key,
 			value: this.props.value,
-			values: this.props.values || [],
+			values: this.props.values,
 			editing: this.props.editing || false
 		};
 	},
@@ -112,7 +112,9 @@ module.exports = React.createClass({
 	},
 	__doInputChange: function (event){
 		var _value = this.__parseDataType(event.target.value);
-	
+		this.__onValueChange(_value);
+	},
+	__onValueChange: function (_value){
 		this.setState({
 			value: _value,
 			editing: false
@@ -143,7 +145,12 @@ module.exports = React.createClass({
 				}
 			</select>;
 		}
-		if(this.state.values){
+		if(this.state.values && this.state.values.map){
+			var _return = this.props.valuesRender && this.props.valuesRender(this.state.value, this.state.values, this);
+			if(_return !== undefined) {
+				return _return;
+			}
+
 			return <select onChange={this.__doInputChange} ref={(dom)=>this._valuedom = dom} required value={this.state.value}>
 				{
 					this.state.values.map(function (item, index){
