@@ -266,6 +266,7 @@ var _array = React.createClass({
         schema: this.props.schema,
         displayClosure: this.props.displayClosure,
         displayItemCount: this.props.displayItemCount,
+        valuesHandler: this.props.valuesHandler,
         onValueInitial: function onValueInitial(key, value, child) {
           return _this2.__onChildValueInitial(key, value, child, index);
         },

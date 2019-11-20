@@ -333,6 +333,7 @@ var _object = React.createClass({
           fold: this.props.fold,
           displayClosure: this.props.displayClosure,
           displayItemCount: this.props.displayItemCount,
+          valuesHandler: this.props.valuesHandler,
           onValueInitial: this.__onChildValueInitial,
           onChange: this.__onChildChange,
           onRemove: this.__onChildRemove

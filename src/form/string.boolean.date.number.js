@@ -11,8 +11,14 @@ module.exports = React.createClass({
 		return {
 			_key: this.props._key,
 			value: this.props.value,
+			values: this.props.values || [],
 			editing: this.props.editing || false
 		};
+	},
+	componentDidMount: function (){
+		if(Object.prototype.toString.call(this.state.values) == '[object Object]') {
+			this.props.valuesHandler && this.props.valuesHandler(this.state.values, this);
+		}
 	},
 	__parseDataType: function (value){
 		switch(this.props.type){
@@ -130,10 +136,10 @@ module.exports = React.createClass({
 				}
 			</select>;
 		}
-		if(this.props.values){
+		if(this.state.values){
 			return <select onChange={this.__doInputChange} ref={(dom)=>this._valuedom = dom} required value={this.state.value}>
 				{
-					this.props.values.map(function (item, index){
+					this.state.values.map(function (item, index){
 						return <option key={index} value={item}>{item}</option>;
 					})
 				}
@@ -160,6 +166,11 @@ module.exports = React.createClass({
 		if(this.props.desc){
 			return <div className="field-desc"><i className="fa fa-info-circle" />{this.props.desc}</div>;
 		}
+	},
+	setValues: function (values){
+		this.setState({
+			values: values
+		});
 	},
 	validate: function (){
 		if(this.props.required){

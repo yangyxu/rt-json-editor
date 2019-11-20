@@ -210,6 +210,7 @@ var _array = React.createClass({
 											schema={this.props.schema}
 											displayClosure={this.props.displayClosure}
 											displayItemCount={this.props.displayItemCount}
+											valuesHandler={this.props.valuesHandler}
 											onValueInitial={(key, value, child)=>this.__onChildValueInitial(key, value, child, index)}
 											onChange={(data, child)=>this.__onChildChange(data, child, index)}
 											onRemove={(key, child)=>this.__onChildRemove(key, child, index)} />

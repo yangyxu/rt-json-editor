@@ -17,8 +17,14 @@ module.exports = React.createClass({
     return {
       _key: this.props._key,
       value: this.props.value,
+      values: this.props.values || [],
       editing: this.props.editing || false
     };
+  },
+  componentDidMount: function componentDidMount() {
+    if (Object.prototype.toString.call(this.state.values) == '[object Object]') {
+      this.props.valuesHandler && this.props.valuesHandler(this.state.values, this);
+    }
   },
   __parseDataType: function __parseDataType(value) {
     switch (this.props.type) {
@@ -167,7 +173,7 @@ module.exports = React.createClass({
       }));
     }
 
-    if (this.props.values) {
+    if (this.state.values) {
       return React.createElement("select", {
         onChange: this.__doInputChange,
         ref: function ref(dom) {
@@ -175,7 +181,7 @@ module.exports = React.createClass({
         },
         required: true,
         value: this.state.value
-      }, this.props.values.map(function (item, index) {
+      }, this.state.values.map(function (item, index) {
         return React.createElement("option", {
           key: index,
           value: item
@@ -240,6 +246,11 @@ module.exports = React.createClass({
         className: "fa fa-info-circle"
       }), this.props.desc);
     }
+  },
+  setValues: function setValues(values) {
+    this.setState({
+      values: values
+    });
   },
   validate: function validate() {
     if (this.props.required) {
