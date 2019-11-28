@@ -1,6 +1,6 @@
 {
   "name": "rt-json-editor",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Plain JSON Editor",
   "main": "index.js",
   "scripts": {
