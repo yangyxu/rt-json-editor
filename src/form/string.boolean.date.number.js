@@ -150,11 +150,11 @@ module.exports = React.createClass({
 			if(_return !== undefined) {
 				return _return;
 			}
-
+			
 			return <select onChange={this.__doInputChange} ref={(dom)=>this._valuedom = dom} required value={this.state.value}>
 				{
 					this.state.values.map(function (item, index){
-						return <option key={index} value={item}>{item}</option>;
+						return this.__valueItemRender(item, index);
 					}.bind(this))
 				}
 			</select>;

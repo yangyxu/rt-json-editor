@@ -17,7 +17,7 @@ if(uglifyIndex!=-1){
 
 module.exports = {
     context: path.join(process.cwd()),
-    //devtool: 'source-map',
+    devtool: 'source-map',
     mode: 'production',
     entry: {
         "core": "./src/index.js",

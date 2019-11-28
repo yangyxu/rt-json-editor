@@ -200,10 +200,7 @@ module.exports = React.createClass({
         required: true,
         value: this.state.value
       }, this.state.values.map(function (item, index) {
-        return React.createElement("option", {
-          key: index,
-          value: item
-        }, item);
+        return this.__valueItemRender(item, index);
       }.bind(this)));
     }
 
