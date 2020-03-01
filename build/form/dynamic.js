@@ -2,11 +2,11 @@
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-require('./dynamic.less');
-
 var React = require('react');
 
 var ItemToolBar = require('./ItemToolBar.js');
+
+var SVGIcon = require('../SVGIcon');
 
 module.exports = React.createClass({
   displayName: "exports",
@@ -79,8 +79,8 @@ module.exports = React.createClass({
     if (this.props.desc) {
       return React.createElement("div", {
         className: "field-desc"
-      }, React.createElement("i", {
-        className: "fa fa-info-circle"
+      }, React.createElement(SVGIcon, {
+        icon: "faInfoCircle"
       }), this.props.desc);
     }
   },
@@ -92,7 +92,7 @@ module.exports = React.createClass({
 
     if (this.props.removal && !this.props.required) {
       _toolbars.push({
-        icon: 'fa-trash',
+        icon: 'faTrash',
         onClick: this.__onRemove
       });
     }

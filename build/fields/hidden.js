@@ -1,7 +1,5 @@
 "use strict";
 
-require('./hidden.less');
-
 var React = require('react');
 
 module.exports = React.createClass({

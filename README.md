@@ -3,12 +3,9 @@ A draggable toggle-switch component for React.
 [![npm](https://img.shields.io/npm/v/rt-json-editor.svg)](https://www.npmjs.com/package/rt-json-editor)
 [![npm](https://img.shields.io/npm/dm/rt-json-editor.svg)](https://www.npmjs.com/package/rt-json-editor)
 
-- **Draggable** with the mouse or with a touch screen.
-- **Customizable** 
-
 ## Demo
 
-[Take a look at the demo](https://yangyxu.github.io/rt-json-editor/www/index.html)
+[Take a look at the demo](https://yangyxu.github.io/rt-json-editor/example/www/index.html)
 
 ## Installation
 
@@ -106,11 +103,11 @@ module.exports = {
 
 ```
 
-<img src="https://github.com/yangyxu/rt-json-editor/blob/master/images/demo.png" />
+<img src="https://github.com/yangyxu/rt-json-editor/blob/master/example/preview/demo.png" />
 
-<img src="https://github.com/yangyxu/rt-json-editor/blob/master/images/demo-add.png" />
+<img src="https://github.com/yangyxu/rt-json-editor/blob/master/example/preview/demo-add.png" />
 
-<img src="https://github.com/yangyxu/rt-json-editor/blob/master/images/demo-changed.png" />
+<img src="https://github.com/yangyxu/rt-json-editor/blob/master/example/preview/demo-changed.png" />
 
 
 

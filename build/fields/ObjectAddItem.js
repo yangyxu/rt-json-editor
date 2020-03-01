@@ -1,7 +1,5 @@
 "use strict";
 
-require('./ObjectAddItem.less');
-
 require('codemirror/lib/codemirror.css');
 
 require('codemirror/lib/codemirror.js');
@@ -15,6 +13,8 @@ require('codemirror/mode/javascript/javascript.js');
 var React = require('react');
 
 var Radio = require('../radio/Radio.js');
+
+var SVGIcon = require('../SVGIcon');
 
 var CodeMirror = require('react-codemirror2').UnControlled; //console.log(codemirror2);
 //import { UnControlled as CodeMirror } from 'react-codemirror2';
@@ -34,9 +34,9 @@ module.exports = React.createClass({
   },
   getInitialState: function getInitialState() {
     return {
-      _key: this.props._key,
+      _key: this.props._key || '',
       type: this.props.type || 'string',
-      value: this.props.value,
+      value: this.props.value || '',
       editable: true,
       removal: true,
       keyEditable: true
@@ -221,8 +221,8 @@ module.exports = React.createClass({
       title: "CANCEL",
       onClick: this.props.onCancel,
       className: "form-btn cancel"
-    }, React.createElement("i", {
-      className: "fa fa-times-circle"
+    }, React.createElement(SVGIcon, {
+      icon: "faTimesCircle"
     })), this.state._key != null && React.createElement("div", {
       className: "form-item"
     }, React.createElement("span", {
@@ -261,8 +261,8 @@ module.exports = React.createClass({
     }, React.createElement("span", {
       onClick: this.__onCreate,
       className: "form-btn submit"
-    }, React.createElement("i", {
-      className: "fa fa-plus"
+    }, React.createElement(SVGIcon, {
+      icon: "faPlus"
     }), "Create")));
   }
 });

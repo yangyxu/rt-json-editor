@@ -1,7 +1,5 @@
 "use strict";
 
-require('./function.less');
-
 var React = require('react');
 
 module.exports = React.createClass({

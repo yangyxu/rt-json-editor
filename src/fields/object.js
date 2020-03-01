@@ -1,7 +1,7 @@
-require('./object.less');
 var React = require('react');
 var ItemToolBar = require('./ItemToolBar.js');
 var ObjectAddItem = require('./ObjectAddItem.js');
+var SVGIcon = require('../SVGIcon');
 
 var _object = React.createClass({
 	getDefaultProps: function () {
@@ -18,7 +18,7 @@ var _object = React.createClass({
 	getInitialState: function () {
 		var _data = this.__joinValueAndSchema(this.props.value, this.props.schema);
 		return {
-			_key: this.props._key,
+			_key: this.props._key || '',
 			value: _data.value,
 			schema: _data.schema,
 			fold: this.props.fold,
@@ -190,15 +190,15 @@ var _object = React.createClass({
 	render:function(){
 		var _btns = [];
 		if(this.props.editable !== false) {
-			_btns.push({ icon: 'fa-plus', onClick: ()=>this.setState({ adding: true, fold: false }) });
+			_btns.push({ icon: 'faPlus', onClick: ()=>this.setState({ adding: true, fold: false }) });
 		}
 
 		if(this.props._key && this.props.keyEditable){
-			_btns.unshift({ icon: 'fa-edit', onClick: ()=>this.setState({ editing: true }) });
+			_btns.unshift({ icon: 'faEdit', onClick: ()=>this.setState({ editing: true }) });
 		}
 
 		if(this.props.parent && this.props.removal) {
-			_btns.push({ icon: 'fa-trash', onClick: this.__onRemove });
+			_btns.push({ icon: 'faTrash', onClick: this.__onRemove });
 		}
 
 		return (
@@ -210,7 +210,9 @@ var _object = React.createClass({
 				}
 				<div className="field-warp object-warp">
 					<div className="meta-data">
-						<span className="fold-icon" onClick={()=>this.setState({ fold: !this.state.fold })}><i className={"fas " + (this.state.fold?'fa-caret-right':'fa-caret-down')} /></span>
+						<span className="fold-icon" onClick={()=>this.setState({ fold: !this.state.fold })}>
+							<SVGIcon icon={(this.state.fold?'faCaretRight':'faCaretDown')} />
+						</span>
 						{this.__renderLabel()}
 						{
 							this.props.displayClosure && <span className="closure-start">{'{'}</span>

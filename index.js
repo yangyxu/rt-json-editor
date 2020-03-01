@@ -1,2 +1,2 @@
-require('./www/dist/core.bundle.css');
-module.exports = require('./www/dist/core.bundle.js');
+require('./dist/core.style.bundle.css');
+module.exports = require('./dist/core.bundle.js');

@@ -2,8 +2,6 @@
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-require('./object.less');
-
 var React = require('react');
 
 var ItemToolBar = require('./ItemToolBar.js');
@@ -11,6 +9,8 @@ var ItemToolBar = require('./ItemToolBar.js');
 var ObjectAddItem = require('./ObjectAddItem.js');
 
 var Dynamic = require('./dynamic');
+
+var SVGIcon = require('../SVGIcon');
 
 var _object = React.createClass({
   displayName: "_object",
@@ -254,7 +254,7 @@ var _object = React.createClass({
 
     if (this.props.editable !== false) {
       _btns.push({
-        icon: 'fa-plus',
+        icon: 'faPlus',
         onClick: function onClick() {
           return _this.setState({
             adding: true,
@@ -266,7 +266,7 @@ var _object = React.createClass({
 
     if (this.props._key && this.props.keyEditable) {
       _btns.unshift({
-        icon: 'fa-edit',
+        icon: 'faEdit',
         onClick: function onClick() {
           return _this.setState({
             editing: true
@@ -277,7 +277,7 @@ var _object = React.createClass({
 
     if (this.props.parent && this.props.removal) {
       _btns.push({
-        icon: 'fa-trash',
+        icon: 'faTrash',
         onClick: this.__onRemove
       });
     }
@@ -300,8 +300,8 @@ var _object = React.createClass({
           fold: !_this.state.fold
         });
       }
-    }, React.createElement("i", {
-      className: "fas " + (this.state.fold ? 'fa-caret-right' : 'fa-caret-down')
+    }, React.createElement(SVGIcon, {
+      icon: this.state.fold ? 'faCaretRight' : 'faCaretDown'
     })), this.__renderLabel(), this.props.displayClosure && React.createElement("span", {
       className: "closure-start"
     }, '{'), !!this.state.fold && React.createElement("span", {

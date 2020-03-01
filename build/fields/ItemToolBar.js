@@ -1,8 +1,8 @@
 "use strict";
 
-require('./ItemToolBar.less');
-
 var React = require('react');
+
+var SVGIcon = require('../SVGIcon');
 
 module.exports = React.createClass({
   displayName: "exports",
@@ -11,11 +11,12 @@ module.exports = React.createClass({
       className: "rt-json-editor-item-toolbar"
     }, this.props.items && this.props.items.map(function (item, index) {
       return React.createElement("span", {
+        key: index,
         onClick: item.onClick,
         className: "icon-btn",
         title: item.title || ''
-      }, item.icon && React.createElement("i", {
-        className: "fa " + item.icon
+      }, item.icon && React.createElement(SVGIcon, {
+        icon: item.icon
       }), item.label);
     }));
   }

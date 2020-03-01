@@ -1,7 +1,5 @@
 "use strict";
 
-require('./Field.less');
-
 module.exports = {
   array: require('./array.js'),
   "function": require('./function.js'),

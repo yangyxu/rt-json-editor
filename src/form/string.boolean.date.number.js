@@ -1,6 +1,6 @@
-require('./string.boolean.date.number.less');
 var React = require('react');
 var ItemToolBar = require('./ItemToolBar.js');
+var SVGIcon = require('../SVGIcon');
 module.exports = React.createClass({
 	getDefaultProps: function () {
 		return {
@@ -9,8 +9,8 @@ module.exports = React.createClass({
 	},
 	getInitialState: function () {
 		return {
-			_key: this.props._key,
-			value: this.props.value,
+			_key: this.props._key || '',
+			value: this.props.value || '',
 			values: this.props.values,
 			editing: this.props.editing || false
 		};
@@ -178,7 +178,7 @@ module.exports = React.createClass({
 	},
 	__renderDesc: function (){
 		if(this.props.desc){
-			return <div className="field-desc"><i className="fa fa-info-circle" />{this.props.desc}</div>;
+			return <div className="field-desc"><SVGIcon icon="faInfoCircle" />{this.props.desc}</div>;
 		}
 	},
 	setValues: function (values){
@@ -209,10 +209,10 @@ module.exports = React.createClass({
 	render:function(){
 		var _toolbars = [];
 		if(this.props.editable !== false){
-			_toolbars.push({ icon: 'fa-edit', onClick: ()=>this.setState({ editing: true }) });
+			_toolbars.push({ icon: 'faEdit', onClick: ()=>this.setState({ editing: true }) });
 		}
 		if(this.props.removal && !this.props.required) {
-			_toolbars.push({ icon: 'fa-trash', onClick: this.__onRemove });
+			_toolbars.push({ icon: 'faTrash', onClick: this.__onRemove });
 		}
 		
 		return (
@@ -228,8 +228,8 @@ module.exports = React.createClass({
 								this.__renderInput()
 							}
 							<span className="editing-btns">
-								<i onClick={this.__onUpdate} title="CONFIRM" className="icon-btn far fa-check-circle" />
-								<i onClick={()=>this.setState({ editing: false })} title="CANCEL" className="icon-btn far fa-times-circle" />
+								<SVGIcon onClick={this.__onUpdate} title="CONFIRM" className="icon-btn" icon="faCheckCircle" />
+								<SVGIcon onClick={()=>this.setState({ editing: false })} title="CANCEL" className="icon-btn" icon="faTimesCircle" />
 							</span>
 						</div>
 					</div> : <div className={"field-warp " + (this.props.type + "-warp")}>

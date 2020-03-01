@@ -1,12 +1,12 @@
 "use strict";
 
-require('./array.less');
-
 var React = require('react');
 
 var ItemToolBar = require('./ItemToolBar.js');
 
 var ObjectAddItem = require('./ObjectAddItem.js');
+
+var SVGIcon = require('../SVGIcon');
 
 var _array = React.createClass({
   displayName: "_array",
@@ -177,14 +177,14 @@ var _array = React.createClass({
 
     if (this.props.editable !== false) {
       _btns.push({
-        icon: 'fa-plus',
+        icon: 'faPlus',
         onClick: this.__onAdd
       });
     }
 
     if (this.props._key && this.props.keyEditable) {
       _btns.unshift({
-        icon: 'fa-edit',
+        icon: 'faEdit',
         onClick: function onClick() {
           return _this.setState({
             editing: true
@@ -195,7 +195,7 @@ var _array = React.createClass({
 
     if (this.props.parent && this.props.removal) {
       _btns.push({
-        icon: 'fa-trash',
+        icon: 'faTrash',
         onClick: this.__onRemove
       });
     }
@@ -213,8 +213,8 @@ var _array = React.createClass({
           fold: !_this.state.fold
         });
       }
-    }, React.createElement("i", {
-      className: "fas " + (this.state.fold ? 'fa-caret-right' : 'fa-caret-down')
+    }, React.createElement(SVGIcon, {
+      icon: this.state.fold ? 'faCaretRight' : 'faCaretDown'
     })), this.state._key && React.createElement("div", {
       className: "_key"
     }, this.state.editing && this.props.keyEditable ? React.createElement("input", {

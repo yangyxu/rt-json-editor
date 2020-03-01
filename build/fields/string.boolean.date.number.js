@@ -1,10 +1,10 @@
 "use strict";
 
-require('./string.boolean.date.number.less');
-
 var React = require('react');
 
 var ItemToolBar = require('./ItemToolBar.js');
+
+var SVGIcon = require('../SVGIcon');
 
 module.exports = React.createClass({
   displayName: "exports",
@@ -15,8 +15,8 @@ module.exports = React.createClass({
   },
   getInitialState: function getInitialState() {
     return {
-      _key: this.props._key,
-      value: this.props.value,
+      _key: this.props._key || '',
+      value: this.props.value || '',
       editing: false
     };
   },
@@ -230,7 +230,7 @@ module.exports = React.createClass({
 
     if (this.props.editable !== false) {
       _toolbars.push({
-        icon: 'fa-edit',
+        icon: 'faEdit',
         onClick: function onClick() {
           return _this3.setState({
             editing: true
@@ -241,7 +241,7 @@ module.exports = React.createClass({
 
     if (this.props.removal && !this.props.required) {
       _toolbars.push({
-        icon: 'fa-trash',
+        icon: 'faTrash',
         onClick: this.__onRemove
       });
     }
@@ -257,18 +257,20 @@ module.exports = React.createClass({
       className: "field-colon"
     }, ":"), this.__renderInput(), React.createElement("span", {
       className: "editing-btns"
-    }, React.createElement("i", {
+    }, React.createElement(SVGIcon, {
       onClick: this.__onUpdate,
       title: "CONFIRM",
-      className: "icon-btn far fa-check-circle"
-    }), React.createElement("i", {
+      className: "icon-btn",
+      icon: "faCheckCircle"
+    }), React.createElement(SVGIcon, {
       onClick: function onClick() {
         return _this3.setState({
           editing: false
         });
       },
       title: "CANCEL",
-      className: "icon-btn far fa-times-circle"
+      className: "icon-btn",
+      icon: "faTimesCircle"
     }))), this.__renderDesc()) : React.createElement("div", {
       className: "field-warp " + (this.props.type + "-warp")
     }, React.createElement("div", {

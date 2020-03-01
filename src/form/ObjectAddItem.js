@@ -1,4 +1,3 @@
-require('./ObjectAddItem.less');
 require('codemirror/lib/codemirror.css');
 require('codemirror/lib/codemirror.js');
 require('codemirror/theme/material.css');
@@ -6,7 +5,7 @@ require('codemirror/mode/yaml/yaml.js');
 require('codemirror/mode/javascript/javascript.js');
 var React = require('react');
 var Radio = require('../radio/Radio.js');
-
+var SVGIcon = require('../SVGIcon');
 var CodeMirror = require('react-codemirror2').UnControlled;
 //console.log(codemirror2);
 //import { UnControlled as CodeMirror } from 'react-codemirror2';
@@ -24,9 +23,9 @@ module.exports = React.createClass({
 	},
 	getInitialState: function () {
 		return {
-			_key: this.props._key,
+			_key: this.props._key || '',
 			type: this.props.type || 'string',
-			value: this.props.value,
+			value: this.props.value || '',
 			editable: true,
 			removal: true,
 			keyEditable: true,
@@ -54,12 +53,14 @@ module.exports = React.createClass({
 		if(event.keyCode==13){
 			this.state._key = event.target.value;
 			this.__onCreate();
+			this.forceUpdate();
 		}
 	},
 	__onValueKeyUp: function (event){
 		if(event.keyCode==13){
 			this.state.value = event.target.value;
 			this.__onCreate();
+			this.forceUpdate();
 		}
 	},
 	__renderValueInput: function (){
@@ -130,7 +131,7 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<div className="rt-json-editor-object-add-item">
-				<span title="CANCEL" onClick={this.props.onCancel} className="form-btn cancel"><i className="fa fa-times-circle" /></span>
+				<span title="CANCEL" onClick={this.props.onCancel} className="form-btn cancel"><SVGIcon icon="faTimesCircle" /></span>
 				{
 					(this.state._key != null) && <div className="form-item">
 						<span className="label">Key:</span>
@@ -154,7 +155,7 @@ module.exports = React.createClass({
 					{this.__renderValueInput()}
 				</div>
 				<div className="form-btns">
-					<span onClick={this.__onCreate} className="form-btn submit"><i className="fa fa-plus" />Create</span>
+					<span onClick={this.__onCreate} className="form-btn submit"><SVGIcon icon="faPlus" />Create</span>
 				</div>
 			</div>
 		);

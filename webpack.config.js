@@ -21,23 +21,33 @@ module.exports = {
     mode: 'production',
     entry: {
         "core": "./src/index.js",
-        "example": "./example/index.js"
+        "core.style": "./src/index.less"
     },
     externals: {
         "react": "React",
-        "react-dom": "ReactDOM"
+        "react-dom": "ReactDOM",
+        "@fortawesome/fontawesome-svg-core": "fsc",
+        "@fortawesome/react-fontawesome": "rf",
+        "@fortawesome/free-solid-svg-icons": "fssi",
+        "@fortawesome/free-brands-svg-icons": "fbsi",
+        "@fortawesome/free-regular-svg-icons": 'frsi',
+        "codemirror/lib/codemirror.css": "codemirror.css",
+        "codemirror/lib/codemirror.js": "codemirror.js",
+        "codemirror/theme/material.css": "material.css",
+        "codemirror/mode/yaml/yaml.js": "yaml.js",
+        "codemirror/mode/javascript/javascript.js": "javascript.js",
+        "react-codemirror2": "react-codemirror2",
+        "codemirror": "codemirror",
+        "create-react-class": "create-react-class",
+        "prettify-js": "prettify-js",
     },
     output: {
-        path: path.join(process.cwd(), 'www', 'dist'),
+        path: path.join(process.cwd(), 'dist'),
         //chunkFilename: '[name].js',
         filename: '[name].bundle.js',
         //library: "friendly",
         libraryTarget: "this"
         //libraryExport: "default"
-    },
-    externals: {
-        "react": "React",
-        "react-dom": "ReactDOM"
     },
     module: {
         // Disable handling of unknown requires

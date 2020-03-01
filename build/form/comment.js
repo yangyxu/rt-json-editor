@@ -1,7 +1,5 @@
 "use strict";
 
-require('./comment.less');
-
 var React = require('react');
 
 module.exports = React.createClass({

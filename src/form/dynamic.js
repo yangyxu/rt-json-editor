@@ -1,6 +1,6 @@
-require('./dynamic.less');
 var React = require('react');
 var ItemToolBar = require('./ItemToolBar.js');
+var SVGIcon = require('../SVGIcon');
 module.exports = React.createClass({
 	getDefaultProps: function () {
 		return {
@@ -59,7 +59,7 @@ module.exports = React.createClass({
 	},
 	__renderDesc: function (){
 		if(this.props.desc){
-			return <div className="field-desc"><i className="fa fa-info-circle" />{this.props.desc}</div>;
+			return <div className="field-desc"><SVGIcon icon="faInfoCircle" />{this.props.desc}</div>;
 		}
 	},
 	__onRemove: function (){
@@ -68,7 +68,7 @@ module.exports = React.createClass({
 	render:function(){
 		var _toolbars = [];
 		if(this.props.removal && !this.props.required) {
-			_toolbars.push({ icon: 'fa-trash', onClick: this.__onRemove });
+			_toolbars.push({ icon: 'faTrash', onClick: this.__onRemove });
 		}
 		
 		return (
